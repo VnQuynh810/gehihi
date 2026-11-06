@@ -14,5 +14,34 @@
     "locality": "Portland",
     "province": "OR"
   },
-  "accounts": []
+  "accounts": [
+    {
+      "id": "Account_1",
+      "email": "sampleuser3@gmail.com",
+      "password": "Password789",
+      "recovery_email": "recovery3@outlook.com",
+      "totp_secret": "JBSWY3DPEHPK3PXP",
+      "proxy": "",
+      "ip_info": "",
+      "status": "pending",
+      "current_step": 0,
+      "step_message": "Tài khoản mới nhập (chờ thực thi)",
+      "expiry_date": "-",
+      "last_screenshot": ""
+    },
+    {
+      "id": "Account_2",
+      "email": "sampleuser4@gmail.com",
+      "password": "Password000",
+      "recovery_email": "",
+      "totp_secret": "JBSWY3DPEHPK3PXP",
+      "proxy": "",
+      "ip_info": "",
+      "status": "pending",
+      "current_step": 0,
+      "step_message": "Tài khoản mới nhập (chờ thực thi)",
+      "expiry_date": "-",
+      "last_screenshot": ""
+    }
+  ]
 }

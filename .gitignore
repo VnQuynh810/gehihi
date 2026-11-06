@@ -1,0 +1,23 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Chrome Profiles & User Data
+chrome_profiles/
+user_data/
+*.log
+
+# Screenshots
+screenshots/*.png
+!screenshots/.gitkeep
+
+# Environments & OS files
+.venv/
+env/
+venv/
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+

@@ -1,108 +1,206 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="vi">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Google AI Ultra (5x / 20x) 全自动一条龙控制台</title>
+  <title>Google AI Pro (5 TB) 2 Năm Miễn Phí - Điều Khiển Tự Động</title>
   <style>
     :root {
-      --bg: #0b0f19;
-      --panel: #131b2e;
-      --panel-hover: #19233c;
-      --border: #23304f;
-      --text: #e2e8f0;
-      --muted: #94a3b8;
+      --bg: #070b14;
+      --bg-surface: #0f172a;
+      --bg-surface-elevated: #162036;
+      --bg-card: rgba(19, 29, 49, 0.7);
+      --border: #1e293b;
+      --border-focus: #3b82f6;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
       --primary: #3b82f6;
       --primary-hover: #2563eb;
+      --primary-glow: rgba(59, 130, 246, 0.35);
       --success: #10b981;
+      --success-hover: #059669;
+      --success-glow: rgba(16, 185, 129, 0.3);
       --warning: #f59e0b;
+      --warning-glow: rgba(245, 158, 11, 0.3);
       --danger: #ef4444;
+      --danger-hover: #dc2626;
       --purple: #8b5cf6;
+      --cyan: #06b6d4;
+      --card-gradient: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%);
+      --radius: 12px;
+      --radius-sm: 8px;
     }
+
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
+
     body {
       background: var(--bg);
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.12) 0px, transparent 50%),
+        radial-gradient(at 100% 0%, rgba(139, 92, 246, 0.12) 0px, transparent 50%),
+        radial-gradient(at 50% 100%, rgba(16, 185, 129, 0.08) 0px, transparent 50%);
+      background-attachment: fixed;
       color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
-      font-size: 14px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-size: 13.5px;
       line-height: 1.5;
-      padding: 18px 24px;
+      padding: 16px 24px;
+      min-height: 100vh;
     }
-    /* Top Header */
+
+    /* Scrollbars */
+    ::-webkit-scrollbar {
+      width: 7px;
+      height: 7px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(15, 23, 42, 0.6);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
+
+    /* Utilities & Layout */
+    .container {
+      max-width: 1650px;
+      margin: 0 auto;
+    }
+
+    /* Header */
     .header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: linear-gradient(135deg, #16213e 0%, #0f172a 100%);
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(12px);
       border: 1px solid var(--border);
-      border-radius: 12px;
+      border-radius: var(--radius);
       padding: 16px 22px;
       margin-bottom: 18px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      flex-wrap: wrap;
+      gap: 14px;
     }
-    .header-left h1 {
-      font-size: 20px;
-      font-weight: 700;
+
+    .header-brand {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 14px;
+    }
+
+    .brand-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
+      flex-shrink: 0;
+    }
+
+    .brand-text h1 {
+      font-size: 19px;
+      font-weight: 700;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .badge-pill {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 999px;
+      letter-spacing: 0.3px;
+    }
+
+    .badge-gradient {
+      background: linear-gradient(90deg, #3b82f6, #8b5cf6);
       color: #fff;
     }
-    .badge-pro {
-      background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+
+    .badge-green {
+      background: rgba(16, 185, 129, 0.2);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.4);
+    }
+
+    .brand-text p {
+      color: var(--text-muted);
       font-size: 12px;
-      padding: 2px 10px;
-      border-radius: 999px;
-      font-weight: 600;
+      margin-top: 3px;
     }
-    .header-left p {
-      color: var(--muted);
-      font-size: 12.5px;
-      margin-top: 4px;
-    }
-    .header-actions {
+
+    .header-controls {
       display: flex;
       align-items: center;
       gap: 10px;
+      flex-wrap: wrap;
     }
-    /* Buttons & Inputs */
+
+    /* Buttons */
     button {
       cursor: pointer;
       border: 1px solid transparent;
-      border-radius: 8px;
+      border-radius: var(--radius-sm);
       padding: 8px 14px;
-      font-size: 13px;
+      font-size: 12.5px;
       font-weight: 600;
       color: #fff;
       background: var(--primary);
-      transition: all 0.15s ease;
+      transition: all 0.18s ease;
       display: inline-flex;
       align-items: center;
       gap: 6px;
+      user-select: none;
     }
+
     button:hover {
       background: var(--primary-hover);
+      box-shadow: 0 0 14px var(--primary-glow);
     }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
     button:disabled {
       opacity: 0.45;
       cursor: not-allowed;
+      transform: none !important;
+      box-shadow: none !important;
     }
+
     .btn-success {
       background: var(--success);
     }
     .btn-success:hover {
-      background: #059669;
+      background: var(--success-hover);
+      box-shadow: 0 0 14px var(--success-glow);
     }
+
     .btn-danger {
       background: var(--danger);
     }
     .btn-danger:hover {
-      background: #dc2626;
+      background: var(--danger-hover);
+      box-shadow: 0 0 14px rgba(239, 68, 68, 0.35);
     }
+
     .btn-secondary {
       background: #1e293b;
       border-color: #334155;
@@ -112,130 +210,396 @@
       background: #334155;
       color: #fff;
     }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+    }
+    .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: #fff;
+      border-color: #475569;
+    }
+
     .btn-sm {
-      padding: 5px 10px;
-      font-size: 12px;
+      padding: 4px 9px;
+      font-size: 11.5px;
       border-radius: 6px;
     }
+
+    .btn-icon-only {
+      padding: 6px 9px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Inputs, Selects, Textareas */
     input, select, textarea {
-      background: #0b1120;
+      background: rgba(11, 17, 32, 0.85);
       border: 1px solid var(--border);
       color: var(--text);
-      border-radius: 8px;
-      padding: 8px 11px;
-      font-size: 13px;
+      border-radius: var(--radius-sm);
+      padding: 7px 11px;
+      font-size: 12.5px;
       outline: none;
-      transition: border-color 0.15s;
+      transition: all 0.15s ease;
+      font-family: inherit;
     }
+
     input:focus, select:focus, textarea:focus {
       border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25);
     }
-    /* Main Grid */
-    .top-grid {
+
+    /* Metrics Cards */
+    .metrics-grid {
       display: grid;
-      grid-template-columns: 1.25fr 1fr;
-      gap: 18px;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 12px;
       margin-bottom: 18px;
     }
-    .card {
-      background: var(--panel);
+
+    .metric-card {
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(8px);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 16px 18px;
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: transform 0.15s, border-color 0.15s;
     }
-    .card-title {
-      font-size: 15px;
+
+    .metric-card:hover {
+      transform: translateY(-2px);
+      border-color: #334155;
+    }
+
+    .metric-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .metric-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .metric-value {
+      font-size: 19px;
       font-weight: 700;
-      margin-bottom: 12px;
+      color: #fff;
+      line-height: 1.2;
+    }
+
+    .metric-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    /* Pipeline Roadmap Bar */
+    .pipeline-bar {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .pipe-item {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+
+    .pipe-item::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 3px;
+      height: 100%;
+      background: #334155;
+    }
+
+    .pipe-item:nth-child(1)::before { background: #3b82f6; }
+    .pipe-item:nth-child(2)::before { background: #06b6d4; }
+    .pipe-item:nth-child(3)::before { background: #8b5cf6; }
+    .pipe-item:nth-child(4)::before { background: #ec4899; }
+    .pipe-item:nth-child(5)::before { background: #10b981; }
+
+    .pipe-step-num {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-dim);
+    }
+
+    .pipe-item strong {
+      display: block;
+      color: #f1f5f9;
+      font-size: 12.5px;
+      margin: 1px 0 2px 0;
+    }
+
+    .pipe-item span {
+      color: var(--text-muted);
+      font-size: 11px;
+      display: block;
+      line-height: 1.35;
+    }
+
+    /* Two-Column Grid */
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1.28fr 1fr;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .card {
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 18px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    }
+
+    .card-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .card-title {
+      font-size: 14.5px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
       color: #f8fafc;
     }
+
+    /* Virtual Credit Card Display */
+    .virtual-card-box {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 14px;
+      align-items: stretch;
+      flex-wrap: wrap;
+    }
+
+    .virtual-card {
+      width: 250px;
+      height: 145px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #1e3a8a 0%, #312e81 60%, #4c1d95 100%);
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      color: white;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .virtual-card .chip {
+      width: 30px;
+      height: 22px;
+      background: linear-gradient(135deg, #fbbf24, #d97706);
+      border-radius: 4px;
+      border: 1px solid #b45309;
+    }
+
+    .virtual-card .card-num {
+      font-family: "JetBrains Mono", Consolas, monospace;
+      font-size: 14px;
+      letter-spacing: 2px;
+      font-weight: 700;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .virtual-card .card-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .virtual-card .card-holder {
+      font-size: 10px;
+      text-transform: uppercase;
+      font-weight: 600;
+      letter-spacing: 1px;
+      max-width: 140px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .virtual-card .card-exp {
+      font-family: "JetBrains Mono", Consolas, monospace;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .virtual-card .card-brand-logo {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      font-weight: 800;
+      font-size: 14px;
+      font-style: italic;
+      letter-spacing: 0.5px;
+    }
+
+    /* Form Grids */
     .form-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 10px;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
     }
+
     .form-group {
       display: flex;
       flex-direction: column;
       gap: 4px;
     }
+
     .form-group.col-2 {
       grid-column: span 2;
     }
+
+    .form-group.col-3 {
+      grid-column: span 3;
+    }
+
     .form-group.col-4 {
       grid-column: span 4;
     }
+
     .form-group label {
-      font-size: 12px;
-      color: var(--muted);
+      font-size: 11.5px;
+      color: var(--text-muted);
+      font-weight: 500;
+      display: flex;
+      justify-content: space-between;
     }
+
     .checkbox-row {
       display: flex;
       align-items: center;
       gap: 8px;
       margin-top: 6px;
-      font-size: 13px;
+      font-size: 12.5px;
       color: #cbd5e1;
       cursor: pointer;
+      user-select: none;
     }
-    .checkbox-row input {
+
+    .checkbox-row input[type="checkbox"] {
       width: 16px;
       height: 16px;
       cursor: pointer;
+      accent-color: var(--primary);
     }
-    /* Pipeline Steps Legend */
-    .pipeline-bar {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
+
+    /* Accounts Table Section */
+    .table-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .table-filters {
+      display: flex;
+      align-items: center;
       gap: 8px;
-      margin-bottom: 18px;
+      flex-wrap: wrap;
     }
-    .pipe-item {
-      background: #111827;
+
+    .filter-btn {
+      background: rgba(15, 23, 42, 0.6);
       border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 8px 10px;
-      font-size: 12px;
-    }
-    .pipe-item strong {
-      display: block;
-      color: #60a5fa;
-      margin-bottom: 2px;
-    }
-    .pipe-item span {
-      color: var(--muted);
+      color: var(--text-muted);
+      padding: 5px 10px;
       font-size: 11.5px;
+      border-radius: 6px;
     }
-    /* Accounts Table */
+
+    .filter-btn.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+
+    .table-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
     .table-wrap {
       overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: rgba(11, 17, 32, 0.4);
     }
+
     table {
       width: 100%;
       border-collapse: collapse;
+      font-size: 12.5px;
     }
+
     th, td {
-      padding: 11px 12px;
+      padding: 10px 12px;
       text-align: left;
       border-bottom: 1px solid var(--border);
       vertical-align: middle;
     }
+
     th {
-      color: var(--muted);
+      color: var(--text-muted);
       font-weight: 600;
-      font-size: 12px;
-      background: #0f172a;
+      font-size: 11.5px;
+      background: rgba(15, 23, 42, 0.95);
+      position: sticky;
+      top: 0;
+      z-index: 2;
     }
+
     tr:hover td {
       background: rgba(255, 255, 255, 0.02);
     }
+
+    /* TOTP Pill */
     .totp-pill {
       font-family: "JetBrains Mono", Consolas, monospace;
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 700;
       color: #38bdf8;
       background: rgba(56, 189, 248, 0.12);
@@ -246,12 +610,21 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
+      transition: all 0.15s;
     }
+
+    .totp-pill:hover {
+      background: rgba(56, 189, 248, 0.22);
+      border-color: #38bdf8;
+      transform: translateY(-1px);
+    }
+
     .totp-rem {
-      font-size: 11px;
-      color: var(--muted);
+      font-size: 10.5px;
+      color: var(--text-dim);
       font-weight: 400;
     }
+
     /* Status Badges */
     .status-badge {
       display: inline-flex;
@@ -259,50 +632,60 @@
       gap: 5px;
       padding: 3px 9px;
       border-radius: 999px;
-      font-size: 12px;
+      font-size: 11.5px;
       font-weight: 600;
+      white-space: nowrap;
     }
+
     .status-pending {
       background: rgba(148, 163, 184, 0.15);
       color: #cbd5e1;
+      border: 1px solid rgba(148, 163, 184, 0.3);
     }
+
     .status-running {
       background: rgba(59, 130, 246, 0.2);
       color: #60a5fa;
-      border: 1px solid rgba(59, 130, 246, 0.4);
-      animation: pulse 1.5s infinite;
+      border: 1px solid rgba(59, 130, 246, 0.45);
+      animation: pulse-border 1.5s infinite;
     }
+
     .status-waiting_human {
       background: rgba(245, 158, 11, 0.25);
       color: #fbbf24;
       border: 1px solid #f59e0b;
-      animation: pulse 1s infinite;
+      animation: pulse-border 1s infinite;
     }
+
     .status-completed {
       background: rgba(16, 185, 129, 0.2);
       color: #34d399;
-      border: 1px solid rgba(16, 185, 129, 0.35);
+      border: 1px solid rgba(16, 185, 129, 0.4);
     }
+
     .status-error {
       background: rgba(239, 68, 68, 0.2);
       color: #f87171;
-      border: 1px solid rgba(239, 68, 68, 0.35);
+      border: 1px solid rgba(239, 68, 68, 0.4);
     }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.65; }
+
+    @keyframes pulse-border {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4); }
+      50% { box-shadow: 0 0 0 4px rgba(59, 130, 246, 0); }
     }
+
     /* Step Dots */
     .step-dots {
       display: flex;
       gap: 4px;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
     }
+
     .step-dot {
-      width: 22px;
+      width: 20px;
       height: 18px;
       border-radius: 4px;
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 700;
       display: flex;
       align-items: center;
@@ -311,624 +694,1650 @@
       color: #64748b;
       border: 1px solid #334155;
     }
+
     .step-dot.done {
       background: rgba(16, 185, 129, 0.25);
       color: #34d399;
       border-color: #10b981;
     }
+
     .step-dot.active {
       background: #2563eb;
       color: #fff;
       border-color: #60a5fa;
+      box-shadow: 0 0 8px rgba(59, 130, 246, 0.6);
+      animation: pulse-step 1s infinite alternate;
     }
+
+    @keyframes pulse-step {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.1); }
+    }
+
     .step-msg {
-      font-size: 12px;
-      color: var(--muted);
-      max-width: 310px;
-      word-break: break-all;
+      font-size: 11.5px;
+      color: var(--text-muted);
+      max-width: 290px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
+
     /* Log Terminal */
-    .terminal {
-      background: #070a12;
+    .terminal-container {
+      background: #050811;
       border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 12px 14px;
-      height: 270px;
-      overflow-y: auto;
-      font-family: "JetBrains Mono", Consolas, monospace;
-      font-size: 12.5px;
-      line-height: 1.6;
-      color: #a7f3d0;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
     }
+
+    .terminal-header {
+      background: #0c1220;
+      border-bottom: 1px solid var(--border);
+      padding: 8px 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .terminal-header-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: #94a3b8;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .terminal-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #ef4444;
+      display: inline-block;
+    }
+    .terminal-dot.yellow { background: #f59e0b; }
+    .terminal-dot.green { background: #10b981; }
+
+    .terminal-tools {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .terminal-logs {
+      height: 250px;
+      overflow-y: auto;
+      padding: 10px 14px;
+      font-family: "JetBrains Mono", Consolas, "Courier New", monospace;
+      font-size: 12px;
+      line-height: 1.6;
+      color: #cbd5e1;
+    }
+
     .log-line {
       white-space: pre-wrap;
       word-break: break-all;
+      margin-bottom: 2px;
     }
-    .log-warn { color: #fde047; font-weight: 600; }
+    .log-warn { color: #fde047; font-weight: 500; }
     .log-err { color: #f87171; font-weight: 600; }
     .log-ok { color: #34d399; }
-    /* Modal for Screenshot */
+    .log-sys { color: #38bdf8; }
+
+    /* Modals */
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.8);
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(4px);
       display: none;
       align-items: center;
       justify-content: center;
-      z-index: 999;
-      padding: 24px;
+      z-index: 1000;
+      padding: 20px;
     }
+
     .modal-box {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      max-width: 1100px;
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: var(--radius);
+      max-width: 900px;
+      width: 100%;
       max-height: 90vh;
-      overflow: auto;
-      padding: 16px;
+      overflow-y: auto;
+      padding: 20px 24px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+      position: relative;
     }
-    .modal-box img {
-      max-width: 100%;
-      border-radius: 8px;
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .modal-close {
+      cursor: pointer;
+      color: var(--text-muted);
+      font-size: 18px;
+      border: none;
+      background: transparent;
+      padding: 4px;
+    }
+
+    .modal-close:hover {
+      color: #fff;
+    }
+
+    /* Guide Modal Styling */
+    .guide-step {
+      background: rgba(255, 255, 255, 0.03);
       border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      margin-bottom: 10px;
+    }
+    .guide-step h4 {
+      color: #38bdf8;
+      font-size: 13.5px;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .guide-step p, .guide-step li {
+      color: var(--text-muted);
+      font-size: 12.5px;
+      line-height: 1.5;
+    }
+    .guide-step ul {
+      margin-left: 20px;
+      margin-top: 6px;
+    }
+
+    /* Sound notification toggle */
+    .sound-toggle {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11.5px;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+
+    /* Responsive */
+    @media (max-width: 1280px) {
+      .main-grid {
+        grid-template-columns: 1fr;
+      }
+      .metrics-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .pipeline-bar {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 10px;
+      }
+      .metrics-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .pipeline-bar {
+        grid-template-columns: 1fr;
+      }
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+      .form-group.col-2, .form-group.col-3, .form-group.col-4 {
+        grid-column: span 1;
+      }
     }
   </style>
 </head>
 <body>
 
-  <!-- Header -->
-  <div class="header">
-    <div class="header-left">
-      <h1>
-        🚀 Google AI Pro (5 TB) 零成本两年全自动控制台
-        <span class="badge-pro">US$0.00 零消费 · 叠满 24个月 (2028-10) · 自动退订锁死</span>
-      </h1>
-      <p>支持普通白号 / 2FA 号（自动填号密 + 辅助邮箱 / 2FA 验证码），全自动完成：登录验证 ➔ 首层 12M 免费 ($0) ➔ 二层 6M 免费叠加 ($0) ➔ 三层 6M 免费封顶 24个月 ($0) ➔ Play 自动退订锁死</p>
+<div class="container">
+  <!-- Top Navigation / Header -->
+  <header class="header">
+    <div class="header-brand">
+      <div class="brand-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <h1>
+          <span data-i18n="app_title">Google AI Pro (5 TB) 2 Năm $0</span>
+          <span class="badge-pill badge-gradient" data-i18n="badge_auto">Tự Động 100%</span>
+          <span class="badge-pill badge-green" data-i18n="badge_safe">Chống Trừ Tiền</span>
+        </h1>
+        <p data-i18n="app_subtitle">Hệ thống kích hoạt 24 tháng Google AI Pro 5TB hoàn toàn $0.00 & Huỷ gia hạn tự động Play Store</p>
+      </div>
     </div>
-    <div class="header-actions">
-      <select id="batchStartStep" title="批量执行的起始步骤">
-        <option value="1">从 Step 1 开始 (全流程零成本叠满2年 + 退订)</option>
-        <option value="2">从 Step 2 开始 (已登录，直接跑三层 $0 叠加)</option>
-        <option value="3">从 Step 3 开始 (已有12M，继续跑二层+三层 $0 叠加)</option>
-        <option value="4">从 Step 4 开始 (已有18M，跑最后一层封顶24M + 退订)</option>
-        <option value="5">从 Step 5 开始 (仅去 Google Play 取消自动续订)</option>
+
+    <div class="header-controls">
+      <!-- Quick Language Switcher -->
+      <select id="langSelect" onchange="changeLanguage(this.value)" style="padding: 6px 10px; font-weight: 600;">
+        <option value="vi">🇻🇳 Tiếng Việt</option>
+        <option value="en">🇺🇸 English</option>
       </select>
+
+      <!-- Step selection for batch -->
+      <select id="batchStartStep" title="Chọn bước bắt đầu">
+        <option value="1" data-i18n="step_opt_1">Bước 1: Toàn trình từ đầu (24 tháng $0)</option>
+        <option value="2" data-i18n="step_opt_2">Bước 2: Bỏ qua login (Chạy 3 tầng $0)</option>
+        <option value="3" data-i18n="step_opt_3">Bước 3: Đã có 12T (Chạy tầng 2+3)</option>
+        <option value="4" data-i18n="step_opt_4">Bước 4: Đã có 18T (Chạy tầng 3 chạm mốc 24T)</option>
+        <option value="5" data-i18n="step_opt_5">Bước 5: Chỉ huỷ gia hạn Google Play</option>
+      </select>
+
+      <!-- Batch Run Button -->
       <button class="btn-success" id="btnBatchRun" onclick="runBatch()">
-        ▶ 一键全自动跑所有待执行账号
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+        <span data-i18n="btn_run_all">Chạy Tất Cả</span>
       </button>
+
+      <!-- Emergency Stop Button -->
       <button class="btn-danger" onclick="stopAll()">
-        ⏹ 停止任务
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><rect x="4" y="4" width="16" height="16" rx="2"></rect></svg>
+        <span data-i18n="btn_stop_all">Dừng Hết</span>
       </button>
+
+      <!-- Help / Guide Button -->
+      <button class="btn-secondary" onclick="openGuideModal()">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+        <span data-i18n="btn_guide">Hướng Dẫn</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Metrics Bar -->
+  <div class="metrics-grid">
+    <div class="metric-card">
+      <div class="metric-icon" style="background: rgba(59, 130, 246, 0.15); color: #3b82f6;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+      </div>
+      <div class="metric-info">
+        <span class="metric-value" id="statTotal">0</span>
+        <span class="metric-label" data-i18n="stat_total">Tổng tài khoản</span>
+      </div>
+    </div>
+
+    <div class="metric-card">
+      <div class="metric-icon" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+      </div>
+      <div class="metric-info">
+        <span class="metric-value" id="statCompleted" style="color: #34d399;">0</span>
+        <span class="metric-label" data-i18n="stat_completed">Đã thành công (24T)</span>
+      </div>
+    </div>
+
+    <div class="metric-card">
+      <div class="metric-icon" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+      </div>
+      <div class="metric-info">
+        <span class="metric-value" id="statRunning" style="color: #60a5fa;">0</span>
+        <span class="metric-label" data-i18n="stat_running">Đang chạy</span>
+      </div>
+    </div>
+
+    <div class="metric-card">
+      <div class="metric-icon" style="background: rgba(245, 158, 11, 0.15); color: #f59e0b;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 11V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0"></path><path d="M14 10V4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v2"></path><path d="M10 10.5V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v8"></path><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"></path></svg>
+      </div>
+      <div class="metric-info">
+        <span class="metric-value" id="statWaiting" style="color: #fbbf24;">0</span>
+        <span class="metric-label" data-i18n="stat_waiting">Chờ bấm Captcha</span>
+      </div>
+    </div>
+
+    <div class="metric-card">
+      <div class="metric-icon" style="background: rgba(148, 163, 184, 0.15); color: #94a3b8;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+      </div>
+      <div class="metric-info">
+        <span class="metric-value" id="statPending">0</span>
+        <span class="metric-label" data-i18n="stat_pending">Chờ thực hiện</span>
+      </div>
+    </div>
+
+    <div class="metric-card">
+      <div class="metric-icon" style="background: rgba(239, 68, 68, 0.15); color: #ef4444;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+      </div>
+      <div class="metric-info">
+        <span class="metric-value" id="statError" style="color: #f87171;">0</span>
+        <span class="metric-label" data-i18n="stat_error">Lỗi / Gián đoạn</span>
+      </div>
     </div>
   </div>
 
-  <!-- 5-Step Pipeline Overview -->
+  <!-- Pipeline Roadmap -->
   <div class="pipeline-bar">
     <div class="pipe-item">
-      <strong>Step 1 · 登录与过验证</strong>
-      <span>自动填号密 + 辅助邮箱 / 2FA 动态码</span>
+      <span class="pipe-step-num">Step 1</span>
+      <strong data-i18n="pipe_step1_title">Đăng Nhập & Vượt Xác Minh</strong>
+      <span data-i18n="pipe_step1_desc">Tự động điền pass + mã 2FA TOTP hoặc Email khôi phục</span>
     </div>
     <div class="pipe-item">
-      <strong>Step 2 · 首层 12M 免费 ($0)</strong>
-      <span>12M Pro 5TB + YT 试用 (未绑卡自动内联绑卡)</span>
+      <span class="pipe-step-num">Step 2</span>
+      <strong data-i18n="pipe_step2_title">Tầng 1: 12 Tháng $0</strong>
+      <span data-i18n="pipe_step2_desc">Gói 12M Pro 5TB + YouTube Trial (Tự gắn thẻ US Oregon)</span>
     </div>
     <div class="pipe-item">
-      <strong>Step 3 · 二层 6M 叠加 ($0)</strong>
-      <span>S25 Pro 6M + YT 试用 Mode 5 顺延至 18个月</span>
+      <span class="pipe-step-num">Step 3</span>
+      <strong data-i18n="pipe_step3_title">Tầng 2: Cộng Dồn 6 Tháng $0</strong>
+      <span data-i18n="pipe_step3_desc">Gói S25 Pro 6M nối tiếp gia hạn lên mốc 18 tháng ($0.00)</span>
     </div>
     <div class="pipe-item">
-      <strong>Step 4 · 三层 6M 封顶 ($0)</strong>
-      <span>Pixel 6M + YT 试用 Mode 5 叠满 24个月 (2028-10)</span>
+      <span class="pipe-step-num">Step 4</span>
+      <strong data-i18n="pipe_step4_title">Tầng 3: Chạm Mốc 24 Tháng $0</strong>
+      <span data-i18n="pipe_step4_desc">Gói Pixel 6M gia hạn chạm trần 24 tháng (hạn 2028-10)</span>
     </div>
     <div class="pipe-item">
-      <strong>Step 5 · 自动退订锁死</strong>
-      <span>Play 商店取消续订，全程 US$0.00 截图存证</span>
+      <span class="pipe-step-num">Step 5</span>
+      <strong data-i18n="pipe_step5_title">Huỷ Tự Động Gia Hạn</strong>
+      <span data-i18n="pipe_step5_desc">Huỷ trên Play Store, khoá trọn quyền lợi 2 năm và chụp ảnh lưu</span>
     </div>
   </div>
 
-  <!-- Top Config + Import Grid -->
-  <div class="top-grid">
-    <!-- Left: Global Plan & Card Config -->
+  <!-- Main Grid: Card Config + Import Accounts -->
+  <div class="main-grid">
+    <!-- Left: Virtual Card & Region Setup -->
     <div class="card">
-      <div class="card-title">
-        <span>⚙️ 全局免税区、零成本两年 Pro 方案与银行卡配置</span>
-        <button class="btn-sm" onclick="saveConfig()">💾 保存配置</button>
+      <div class="card-header">
+        <div class="card-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+          <span data-i18n="card_section_title">Thẻ Thanh Toán & Vùng Miễn Thuế</span>
+        </div>
+        <button class="btn-sm btn-success" onclick="saveConfig()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+          <span data-i18n="btn_save_config">Lưu Cấu Hình</span>
+        </button>
       </div>
+
+      <!-- Virtual Card Graphic + Form -->
+      <div class="virtual-card-box">
+        <div class="virtual-card">
+          <div class="chip"></div>
+          <div class="card-brand-logo" id="vCardBrand">VISA</div>
+          <div class="card-num" id="vCardNum">•••• •••• •••• ••••</div>
+          <div class="card-bottom">
+            <div>
+              <div style="font-size: 8px; color: rgba(255,255,255,0.6);">CARDHOLDER</div>
+              <div class="card-holder" id="vCardHolder">YOUR NAME</div>
+            </div>
+            <div>
+              <div style="font-size: 8px; color: rgba(255,255,255,0.6);">EXPIRES</div>
+              <div class="card-exp" id="vCardExp">MM/YY</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="flex: 1; min-width: 200px; display: flex; flex-direction: column; justify-content: space-around;">
+          <div style="font-size: 11.5px; color: var(--text-muted); background: rgba(59, 130, 246, 0.1); border-left: 3px solid #3b82f6; padding: 6px 10px; border-radius: 4px;">
+            <strong style="color: #60a5fa;" data-i18n="card_safe_notice_title">🛡️ Cam kết $0.00 An Toàn:</strong>
+            <span data-i18n="card_safe_notice_desc">Chỉ liên kết thẻ để xác thực $0 dùng thử. Script tự động huỷ gia hạn ở Bước 5.</span>
+          </div>
+          <div style="font-size: 11.5px; color: var(--text-muted); margin-top: 6px;">
+            <span data-i18n="card_type_support">Hỗ trợ: Visa, Mastercard, Virtual Card quốc tế.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Inputs for Card -->
       <div class="form-grid">
         <div class="form-group col-2">
-          <label>🌍 目标地区 / 免税邮编区（零成本叠加两年 Pro 固定走美区免税州 97201）</label>
-          <select id="cfgTargetRegion" onchange="onRegionChange(this.value)">
-            <option value="US">🇺🇸 美国免税区 (US / USD · 俄勒冈 97201) — US$0.00 零成本叠加两年 Pro (5 TB) 必选</option>
-          </select>
-        </div>
-        <div class="form-group col-2">
-          <label>🎯 目标执行方案</label>
-          <select id="cfgTargetPlan">
-            <option value="pro_2year_zero">🎁 零成本叠加两年 Google AI Pro (5 TB) — 全程 US$0.00 叠满 24 个月至 2028-10</option>
-          </select>
-        </div>
-        <div class="form-group col-2">
-          <label>卡号 (支持 Visa / Mastercard 外币卡，仅用于 $0.00 试用验证)</label>
-          <input type="text" id="cfgCardNumber" placeholder="请填写您的 Visa / Mastercard 卡号 (16位)" />
+          <label data-i18n="lbl_card_num">Số Thẻ (16 số)</label>
+          <input type="text" id="cfgCardNumber" placeholder="4111 2222 3333 4444" maxlength="23" oninput="formatCardNumber(this)" />
         </div>
         <div class="form-group">
-          <label>有效期 (月 / 年)</label>
+          <label data-i18n="lbl_card_exp">Hạn (Tháng/Năm)</label>
           <div style="display:flex; gap:6px;">
-            <input type="text" id="cfgExpMonth" placeholder="月 (如 08)" style="width:50%;" />
-            <input type="text" id="cfgExpYear" placeholder="年 (如 29)" style="width:50%;" />
+            <input type="text" id="cfgExpMonth" placeholder="08" maxlength="2" style="width:50%; text-align:center;" oninput="updateVCard()" />
+            <input type="text" id="cfgExpYear" placeholder="29" maxlength="2" style="width:50%; text-align:center;" oninput="updateVCard()" />
           </div>
         </div>
         <div class="form-group">
-          <label>安全码 (CVC)</label>
-          <input type="text" id="cfgCvc" placeholder="3位安全码" />
+          <label data-i18n="lbl_card_cvc">Mã CVC</label>
+          <input type="text" id="cfgCvc" placeholder="123" maxlength="4" style="text-align:center;" />
         </div>
-        <div class="form-group">
-          <label>持卡人姓名</label>
-          <input type="text" id="cfgHolder" placeholder="英文姓名 (如 ZHANG SAN)" />
+
+        <div class="form-group col-2">
+          <label data-i18n="lbl_card_holder">Tên Chủ Thẻ</label>
+          <input type="text" id="cfgHolder" placeholder="NGUYEN VAN A" oninput="updateVCard()" />
         </div>
         <div class="form-group col-2">
-          <label>账单地址 (Address Line 1)</label>
-          <input type="text" id="cfgAddr" placeholder="700 SW 5th Ave" />
+          <label data-i18n="lbl_region">Vùng Miễn Thuế US (Oregon 97201)</label>
+          <select id="cfgTargetRegion" disabled>
+            <option value="US">🇺🇸 Hoa Kỳ (US · Oregon 97201 - Miễn 100% Thuế Mua Sắm)</option>
+          </select>
+          <input type="hidden" id="cfgTargetPlan" value="pro_2year_zero" />
+          <input type="hidden" id="cfgAddr" value="700 SW 5th Ave" />
+          <input type="hidden" id="cfgZip" value="97201" />
+          <input type="hidden" id="cfgProvince" value="OR" />
         </div>
-        <div class="form-group">
-          <label>免税邮编 / 州</label>
-          <div style="display:flex; gap:6px;">
-            <input type="text" id="cfgZip" placeholder="97201" style="width:45%;" />
-            <input type="text" id="cfgProvince" placeholder="OR" style="width:55%;" />
-          </div>
-        </div>
+
+        <!-- Proxy Config -->
         <div class="form-group col-4">
           <div style="display:flex; justify-content:space-between; align-items:center;">
-            <label>🛡️ 全局代理模板（留空默认直接使用本机当前美区网络；如需使用代理可粘贴）</label>
-            <button type="button" class="btn-sm btn-secondary" onclick="testProxyNow()" id="btnTestProxy">🔍 测试代理连通性</button>
+            <label data-i18n="lbl_proxy">Mẫu Proxy (Để trống nếu máy đang dùng VPN / Proxy Mỹ)</label>
+            <button type="button" class="btn-sm btn-secondary" onclick="testProxyNow()" id="btnTestProxy">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              <span data-i18n="btn_test_proxy">Kiểm Tra Proxy</span>
+            </button>
           </div>
-          <input
-            type="text"
-            id="cfgProxyTemplate"
-            placeholder="留空默认使用本机当前网络 (推荐)，或填入 http://user:pass@host:port"
-          />
-          <div id="proxyTestResult" style="font-size:12px; color:#34d399; margin-top:4px;">
-            ✅ 默认使用本机美区网络（内联免税邮编 97201，全程三层 US$0.00 零扣费）
+          <input type="text" id="cfgProxyTemplate" placeholder="http://username:password@ip:port hoặc socks5://..." />
+          <div id="proxyTestResult" style="font-size:11.5px; color:#34d399; margin-top:3px;">
+            ✅ Mặc định dùng kết nối máy tính hiện tại (khuyên dùng VPN US).
           </div>
         </div>
       </div>
+
       <label class="checkbox-row">
         <input type="checkbox" id="cfgAutoCancel" checked />
-        <span>✅ <strong>Step 5 自动取消续订保护</strong>（叠满 24 个月后立即自动前往 Google Play 取消自动续订，锁死 2028 年到期日，全程 US$0.00 零扣费）</span>
+        <span data-i18n="lbl_auto_cancel"><strong>Bảo vệ Step 5:</strong> Tự động huỷ gia hạn trên Google Play sau khi kích hoạt xong (Khoá hạn đến 2028, tuyệt đối không trừ phí).</span>
       </label>
     </div>
 
-    <!-- Right: Bulk Account Import -->
+    <!-- Right: Import Accounts -->
     <div class="card" style="display:flex; flex-direction:column;">
-      <div class="card-title">
-        <span>📥 批量放号导入区（支持任意分隔符，自动识别辅助邮箱与 2FA 密钥）</span>
-        <button class="btn-sm btn-success" onclick="importAccounts()">➕ 一键导入账号列表</button>
+      <div class="card-header">
+        <div class="card-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><line x1="9" y1="15" x2="15" y2="15"></line></svg>
+          <span data-i18n="import_section_title">Nhập Danh Sách Tài Khoản</span>
+        </div>
+        <div style="display:flex; gap:6px;">
+          <button class="btn-sm btn-outline" onclick="pasteSample(1)" title="Mẫu Email----Pass----Recovery">Mẫu 1</button>
+          <button class="btn-sm btn-outline" onclick="pasteSample(2)" title="Mẫu Email----Pass----Recovery----2FA">Mẫu 2</button>
+          <button class="btn-sm btn-success" onclick="importAccounts()">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            <span data-i18n="btn_import">Nhập Ngay</span>
+          </button>
+        </div>
       </div>
-      <textarea
-        id="importText"
-        style="flex:1; width:100%; resize:none; font-family:Consolas,monospace; font-size:12.5px;"
-        placeholder="每行放一个账号，支持 ----、/、—、|、空格 等任意分隔符：&#10;邮箱----密码----辅助邮箱&#10;邮箱/密码/辅助邮箱/2FA密钥&#10;邮箱—密码—辅助邮箱&#10;邮箱----密码----2FA密钥"
-      ></textarea>
-      <div style="font-size:12px; color:var(--muted); margin-top:8px;">
-        💡 提示：无 2FA 白号（带辅助邮箱）与 2FA 号均可直接导入一键全自动执行！
+
+      <div style="position:relative; flex:1; display:flex; flex-direction:column;">
+        <textarea
+          id="importText"
+          style="flex:1; width:100%; min-height:165px; resize:none; font-family:'JetBrains Mono',Consolas,monospace; font-size:12px;"
+          placeholder="Dán danh sách tài khoản tại đây (mỗi dòng 1 tài khoản). Hỗ trợ các định dạng:&#10;email----mật_khẩu----mail_khôi_phục&#10;email----mật_khẩu----mail_khôi_phục----mã_2fa_key&#10;email----mật_khẩu----mã_2fa_key&#10;email|mật_khẩu|mail_khôi_phục"
+          oninput="previewImportCount()"
+        ></textarea>
+        <div id="importCountBadge" style="position:absolute; bottom:8px; right:12px; font-size:11px; color:#38bdf8; background:rgba(15,23,42,0.9); padding:2px 8px; border-radius:4px; border:1px solid #1e293b;">
+          Đã phát hiện: 0 tài khoản
+        </div>
+      </div>
+
+      <div style="font-size:11.5px; color:var(--text-muted); margin-top:8px; display:flex; justify-content:space-between; align-items:center;">
+        <span data-i18n="import_hint">💡 Hỗ trợ cả tài khoản thường lẫn tài khoản bật 2FA (tự sinh mã TOTP).</span>
+        <button class="btn-sm btn-outline" onclick="clearImportText()" data-i18n="btn_clear_input">Xoá Trắng</button>
       </div>
     </div>
   </div>
 
   <!-- Accounts Table Card -->
   <div class="card" style="margin-bottom: 18px;">
-    <div class="card-title">
-      <span>📋 账号队列与实时进度监控（点击 2FA 动态码可一键复制）</span>
-      <span id="summaryStats" style="font-size:12.5px; color:var(--muted); font-weight:normal;">加载中...</span>
+    <div class="card-header" style="flex-wrap:wrap; gap:10px;">
+      <div class="card-title">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+        <span data-i18n="table_section_title">Danh Sách Tài Khoản & Tiến Trình</span>
+        <span id="summaryStats" style="font-size:12px; color:var(--text-muted); font-weight:normal; margin-left:8px;"></span>
+      </div>
+
+      <!-- Quick Actions for Table -->
+      <div class="table-actions">
+        <button class="btn-sm btn-outline" onclick="openExportModal()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+          <span data-i18n="btn_export">Xuất File</span>
+        </button>
+        <button class="btn-sm btn-secondary" onclick="batchResetSelected()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
+          <span data-i18n="btn_reset_selected">Đặt Lại Đã Chọn</span>
+        </button>
+        <button class="btn-sm btn-danger" onclick="batchDeleteSelected()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+          <span data-i18n="btn_delete_selected">Xoá Đã Chọn</span>
+        </button>
+        <button class="btn-sm btn-outline" onclick="clearAllAccounts()" style="color:#f87171;" title="Xoá tất cả tài khoản khỏi danh sách">
+          <span data-i18n="btn_clear_all">Xoá Hết</span>
+        </button>
+      </div>
     </div>
+
+    <!-- Filter & Search Toolbar -->
+    <div class="table-toolbar">
+      <div class="table-filters">
+        <button class="filter-btn active" onclick="setFilter('all', this)" data-i18n="filter_all">Tất Cả</button>
+        <button class="filter-btn" onclick="setFilter('running', this)" data-i18n="filter_running">⚡ Đang Chạy</button>
+        <button class="filter-btn" onclick="setFilter('completed', this)" data-i18n="filter_completed">✅ Thành Công</button>
+        <button class="filter-btn" onclick="setFilter('waiting_human', this)" data-i18n="filter_waiting">🖐️ Cần Captcha</button>
+        <button class="filter-btn" onclick="setFilter('pending', this)" data-i18n="filter_pending">⏳ Chờ Thực Hiện</button>
+        <button class="filter-btn" onclick="setFilter('error', this)" data-i18n="filter_error">❌ Lỗi</button>
+      </div>
+
+      <div style="display:flex; align-items:center; gap:8px;">
+        <input
+          type="text"
+          id="tableSearch"
+          placeholder="🔍 Tìm theo Email hoặc ID..."
+          style="width: 220px;"
+          oninput="renderAccountsTable()"
+        />
+      </div>
+    </div>
+
+    <!-- Table -->
     <div class="table-wrap">
       <table>
         <thead>
           <tr>
-            <th style="width:85px;">编号</th>
-            <th style="width:250px;">Google 邮箱 / 密码 / 辅助邮箱</th>
-            <th style="width:140px;">验证方式 / 2FA</th>
-            <th style="width:110px;">状态</th>
-            <th style="width:320px;">5 步零成本两年 Pro 流水线进度</th>
-            <th style="width:155px;">当前到期日</th>
-            <th style="width:75px;">核验图</th>
-            <th>单号控制操作</th>
+            <th style="width:36px; text-align:center;">
+              <input type="checkbox" id="selectAllCheckbox" onchange="toggleSelectAll(this.checked)" />
+            </th>
+            <th style="width:75px;" data-i18n="th_id">ID</th>
+            <th style="width:260px;" data-i18n="th_account">Google Account (Email / Pass)</th>
+            <th style="width:140px;" data-i18n="th_2fa">Xác Minh / Mã 2FA</th>
+            <th style="width:115px;" data-i18n="th_status">Trạng Thái</th>
+            <th style="width:280px;" data-i18n="th_pipeline">Tiến Trình 5 Bước</th>
+            <th style="width:130px;" data-i18n="th_expiry">Thời Hạn Gói</th>
+            <th style="width:80px; text-align:center;" data-i18n="th_proof">Ảnh Chụp</th>
+            <th style="min-width:260px;" data-i18n="th_actions">Thao Tác</th>
           </tr>
         </thead>
-        <tbody id="accountsTbody"></tbody>
+        <tbody id="accountsTbody">
+          <tr>
+            <td colspan="9" style="text-align:center; padding:30px; color:var(--text-muted);" data-i18n="loading_accounts">
+              Đang tải danh sách tài khoản...
+            </td>
+          </tr>
+        </tbody>
       </table>
     </div>
   </div>
 
-  <!-- Live Logs Terminal -->
+  <!-- Live Logs Console -->
   <div class="card">
-    <div class="card-title">
-      <span>🖥️ 实时自动化执行日志 (Playwright CDP + Ngbm Interceptor)</span>
-      <span style="font-size:12px; color:var(--muted); font-weight:normal;">遇到绑卡 reCAPTCHA 人机验证时会自动弹窗提醒您点一下复选框，点完自动继续</span>
-    </div>
-    <div class="terminal" id="logTerminal"></div>
-  </div>
-
-  <!-- Screenshot Modal -->
-  <div class="modal-backdrop" id="imgModal" onclick="closeModal()">
-    <div class="modal-box" onclick="event.stopPropagation()">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-        <strong id="modalTitle">核验截图预览</strong>
-        <button class="btn-sm btn-secondary" onclick="closeModal()">✖ 关闭</button>
+    <div class="terminal-container">
+      <div class="terminal-header">
+        <div class="terminal-header-title">
+          <span class="terminal-dot"></span>
+          <span class="terminal-dot yellow"></span>
+          <span class="terminal-dot green"></span>
+          <span style="margin-left: 8px;" data-i18n="terminal_title">🖥️ Nhật Ký Tự Động (Playwright CDP Engine)</span>
+        </div>
+        <div class="terminal-tools">
+          <select id="logLevelFilter" onchange="filterLogs()" style="padding:3px 7px; font-size:11px;">
+            <option value="all" data-i18n="log_all">Tất cả Log</option>
+            <option value="ok" data-i18n="log_success">Chỉ Thành công (✅)</option>
+            <option value="warn" data-i18n="log_warn">Chỉ Cảnh báo (⚠️)</option>
+            <option value="err" data-i18n="log_err">Chỉ Lỗi (❌)</option>
+          </select>
+          <label style="display:flex; align-items:center; gap:4px; font-size:11px; color:var(--text-muted); cursor:pointer;">
+            <input type="checkbox" id="autoScrollCheck" checked />
+            <span data-i18n="log_autoscroll">Tự cuộn</span>
+          </label>
+          <button class="btn-sm btn-outline" onclick="copyAllLogs()" title="Sao chép toàn bộ log">
+            <span data-i18n="btn_copy_logs">Sao Chép</span>
+          </button>
+          <button class="btn-sm btn-outline" onclick="clearLogsConsole()" title="Xoá hiển thị log">
+            <span data-i18n="btn_clear_logs">Làm Sạch</span>
+          </button>
+        </div>
       </div>
-      <img id="modalImg" src="" alt="screenshot" />
+      <div class="terminal-logs" id="logTerminal"></div>
     </div>
   </div>
+</div>
 
-  <script>
-    let configInitialized = false;
-    let selectedStartSteps = {};
-    let copiedAccountMap = {};
-    let openedBrowserMap = {};
+<!-- Screenshot Lightbox Modal -->
+<div class="modal-backdrop" id="imgModal" onclick="closeModal('imgModal')">
+  <div class="modal-box" onclick="event.stopPropagation()" style="max-width:960px;">
+    <div class="modal-header">
+      <div class="modal-title" id="modalTitle">🖼️ Ảnh Chụp Xác Thực Quyền Lợi</div>
+      <button class="modal-close" onclick="closeModal('imgModal')">✖</button>
+    </div>
+    <div style="text-align:center; background:#000; padding:10px; border-radius:8px; margin-bottom:12px;">
+      <img id="modalImg" src="" alt="Screenshot" style="max-width:100%; max-height:70vh; border-radius:4px; display:inline-block;" />
+    </div>
+    <div style="display:flex; justify-content:flex-end; gap:8px;">
+      <a id="btnDownloadImg" href="" download class="btn-sm btn-secondary" style="text-decoration:none;">
+        ⬇ Tải Ảnh Về Máy
+      </a>
+      <button class="btn-sm btn-secondary" onclick="closeModal('imgModal')">Đóng</button>
+    </div>
+  </div>
+</div>
 
-    async function fetchState() {
-      try {
-        const res = await fetch('/api/state');
-        const data = await res.json();
+<!-- Edit Account Modal -->
+<div class="modal-backdrop" id="editModal" onclick="closeModal('editModal')">
+  <div class="modal-box" onclick="event.stopPropagation()" style="max-width:550px;">
+    <div class="modal-header">
+      <div class="modal-title" data-i18n="modal_edit_title">✏️ Chỉnh Sửa Thông Tin Tài Khoản</div>
+      <button class="modal-close" onclick="closeModal('editModal')">✖</button>
+    </div>
+    <input type="hidden" id="editAccId" />
+    <div class="form-grid" style="grid-template-columns:1fr; gap:12px; margin-bottom:16px;">
+      <div class="form-group">
+        <label>Google Email</label>
+        <input type="email" id="editEmail" />
+      </div>
+      <div class="form-group">
+        <label>Mật Khẩu (Password)</label>
+        <input type="text" id="editPassword" />
+      </div>
+      <div class="form-group">
+        <label>Email Khôi Phục (Recovery Email)</label>
+        <input type="text" id="editRecovery" placeholder="recovery@example.com" />
+      </div>
+      <div class="form-group">
+        <label>Mã Bí Mật 2FA Secret Key (Nếu có bật 2FA)</label>
+        <input type="text" id="editTotp" placeholder="Ví dụ: JBSWY3DPEHPK3PXP" />
+      </div>
+      <div class="form-group">
+        <label>Proxy Riêng Biệt (Tuỳ chọn)</label>
+        <input type="text" id="editProxy" placeholder="http://user:pass@host:port" />
+      </div>
+    </div>
+    <div style="display:flex; justify-content:flex-end; gap:8px;">
+      <button class="btn-secondary" onclick="closeModal('editModal')">Huỷ</button>
+      <button class="btn-success" onclick="saveEditedAccount()">Lưu Thay Đổi</button>
+    </div>
+  </div>
+</div>
 
-        if (!configInitialized) {
-          document.getElementById('cfgTargetRegion').value = data.target_region || 'US';
-          document.getElementById('cfgTargetPlan').value = data.target_plan || 'pro_2year_zero';
-          document.getElementById('cfgAutoCancel').checked = data.auto_cancel !== false;
-          document.getElementById('cfgProxyTemplate').value = data.proxy_template || '';
-          const c = data.card || {};
-          document.getElementById('cfgCardNumber').value = c.number || '';
-          document.getElementById('cfgExpMonth').value = c.exp_month || '';
-          document.getElementById('cfgExpYear').value = c.exp_year || '';
-          document.getElementById('cfgCvc').value = c.cvc || '';
-          document.getElementById('cfgHolder').value = c.holder || '';
-          document.getElementById('cfgAddr').value = c.address_line1 || '700 SW 5th Ave';
-          document.getElementById('cfgZip').value = c.postal_code || '97201';
-          document.getElementById('cfgProvince').value = c.province || 'OR';
-          configInitialized = true;
-        }
+<!-- Export Modal -->
+<div class="modal-backdrop" id="exportModal" onclick="closeModal('exportModal')">
+  <div class="modal-box" onclick="event.stopPropagation()" style="max-width:550px;">
+    <div class="modal-header">
+      <div class="modal-title" data-i18n="modal_export_title">📥 Xuất Danh Sách Tài Khoản</div>
+      <button class="modal-close" onclick="closeModal('exportModal')">✖</button>
+    </div>
+    <div style="margin-bottom:16px;">
+      <div class="form-group" style="margin-bottom:12px;">
+        <label data-i18n="lbl_export_filter">Chọn nhóm tài khoản cần xuất:</label>
+        <select id="exportFilterSelect">
+          <option value="completed" data-i18n="opt_export_completed">Chỉ xuất tài khoản ĐÃ HOÀN THÀNH (24 Tháng)</option>
+          <option value="all" data-i18n="opt_export_all">Xuất TẤT CẢ tài khoản</option>
+        </select>
+      </div>
 
-        renderAccounts(data.accounts || []);
-        renderLogs(data.logs || []);
+      <div class="form-group" style="margin-bottom:12px;">
+        <label data-i18n="lbl_export_format">Định dạng file xuất:</label>
+        <select id="exportFormatSelect">
+          <option value="txt_standard">TXT chuẩn (Email----Mật khẩu----Hạn dùng)</option>
+          <option value="txt_full">TXT chi tiết (Email----Mật khẩu----Khôi phục----2FA----Hạn)</option>
+          <option value="csv">CSV (Mở bằng Excel)</option>
+          <option value="json">JSON chuẩn</option>
+        </select>
+      </div>
+    </div>
+    <div style="display:flex; justify-content:flex-end; gap:8px;">
+      <button class="btn-secondary" onclick="closeModal('exportModal')">Đóng</button>
+      <button class="btn-success" onclick="executeExport()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+        Tải File Về
+      </button>
+    </div>
+  </div>
+</div>
 
-        const total = (data.accounts || []).length;
-        const done = (data.accounts || []).filter(a => a.status === 'completed').length;
-        const running = data.active_count || 0;
-        document.getElementById('summaryStats').textContent =
-          `共 ${total} 个账号 | 已完成: ${done} | 运行中: ${running}`;
-      } catch (e) {
-        console.error('State poll error:', e);
+<!-- User Guide Modal -->
+<div class="modal-backdrop" id="guideModal" onclick="closeModal('guideModal')">
+  <div class="modal-box" onclick="event.stopPropagation()" style="max-width:760px;">
+    <div class="modal-header">
+      <div class="modal-title">📖 Hướng Dẫn Sử Dụng Chi Tiết</div>
+      <button class="modal-close" onclick="closeModal('guideModal')">✖</button>
+    </div>
+    <div style="font-size:13px; line-height:1.6; color:#cbd5e1;">
+      <div class="guide-step">
+        <h4>1. Chuẩn Bị Thẻ Thanh Toán (Visa / Mastercard)</h4>
+        <p>• Bạn cần 1 thẻ Visa hoặc Mastercard ngoại tệ (thẻ ảo hoặc thẻ ngân hàng đều được).</p>
+        <p>• <strong>Bảo vệ 0 Đồng:</strong> Tool chỉ dùng thẻ để liên kết kích hoạt gói dùng thử 0đ (US$0.00). Kịch bản kiểm tra nghiêm ngặt chỉ click đăng ký khi giá hiển thị đúng 0 đô.</p>
+        <p>• Sau khi cộng dồn đủ 24 tháng, kịch bản tự động sang Google Play Store để huỷ đăng ký gia hạn, khoá quyền lợi 2 năm mà hoàn toàn không phát sinh chi phí tương lai.</p>
+      </div>
+
+      <div class="guide-step">
+        <h4>2. Mạng Internet / Proxy Hoa Kỳ (US)</h4>
+        <p>• Để kích hoạt thành công gói Google AI Pro 2 năm, bắt buộc mạng phải ở Mỹ (US).</p>
+        <p>• <strong>Cách 1:</strong> Bật VPN Hoa Kỳ (US) trực tiếp trên máy tính. Để trống ô Proxy trên giao diện và bấm <em>Kiểm tra Proxy</em> để kiểm tra.</p>
+        <p>• <strong>Cách 2:</strong> Dán Proxy vào ô cấu hình proxy theo dạng: <code>http://user:pass@host:port</code>.</p>
+      </div>
+
+      <div class="guide-step">
+        <h4>3. Nhập Tài Khoản Google & Chạy Tự Động</h4>
+        <p>• Hỗ trợ cả tài khoản thường (có mail khôi phục) và tài khoản có bật 2FA.</p>
+        <p>• Định dạng nhập: <code>Email----Mật khẩu----Mail khôi phục</code> hoặc <code>Email----Mật khẩu----Mail khôi phục----Mã 2FA</code>.</p>
+        <p>• Bấm <strong>Chạy Tất Cả</strong> hoặc bấm nút ▶ ở từng dòng để bắt đầu quy trình tự động 5 bước.</p>
+      </div>
+
+      <div class="guide-step">
+        <h4>4. Xử Lý Khi Có Yêu Cầu Bấm Captcha (reCAPTCHA)</h4>
+        <p>• Khi Google hiển thị ô kiểm tra "Tôi không phải người máy" (reCAPTCHA), dòng tài khoản sẽ chuyển sang màu vàng nhấp nháy <strong>🖐️ Chờ bấm Captcha</strong>.</p>
+        <p>• Bạn chỉ cần bấm nút <strong>🌐 Trình duyệt</strong> để mở cửa sổ Chrome lên, tích vào ô Captcha rồi đóng lại, hệ thống sẽ tự động chạy tiếp.</p>
+      </div>
+    </div>
+    <div style="display:flex; justify-content:flex-end; margin-top:14px;">
+      <button class="btn-secondary" onclick="closeModal('guideModal')">Đã Hiểu</button>
+    </div>
+  </div>
+</div>
+
+<!-- Audio chime synthesizer via Web Audio API (No external file needed) -->
+<script>
+  function playSound(type) {
+    try {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      if (type === 'success') {
+        osc.frequency.setValueAtTime(523.25, ctx.currentTime); // C5
+        osc.frequency.setValueAtTime(659.25, ctx.currentTime + 0.1); // E5
+        osc.frequency.setValueAtTime(783.99, ctx.currentTime + 0.2); // G5
+        gain.gain.setValueAtTime(0.12, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.4);
+      } else if (type === 'alert') {
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(440, ctx.currentTime);
+        osc.frequency.setValueAtTime(880, ctx.currentTime + 0.15);
+        gain.gain.setValueAtTime(0.2, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.35);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.35);
       }
+    } catch (e) {
+      // AudioContext not allowed or unsupported
     }
+  }
+</script>
 
-    function statusBadgeHtml(status) {
-      const map = {
-        pending: ['status-pending', '⏳ 待执行'],
-        running: ['status-running', '⚡ 执行中'],
-        waiting_human: ['status-waiting_human', '🖐️ 等点人机验证'],
-        completed: ['status-completed', '✅ 已完成'],
-        error: ['status-error', '❌ 异常中断'],
-        stopped: ['status-pending', '⏹ 已停止']
-      };
-      const [cls, label] = map[status] || ['status-pending', status];
-      return `<span class="status-badge ${cls}">${label}</span>`;
+<!-- i18n & Core Application Logic -->
+<script>
+  const I18N = {
+    vi: {
+      app_title: "Google AI Pro (5 TB) 2 Năm $0",
+      app_subtitle: "Hệ thống kích hoạt 24 tháng Google AI Pro 5TB hoàn toàn $0.00 & Huỷ gia hạn tự động Play Store",
+      badge_auto: "Tự Động 100%",
+      badge_safe: "Chống Trừ Tiền",
+      btn_run_all: "Chạy Tất Cả",
+      btn_stop_all: "Dừng Hết",
+      btn_guide: "Hướng Dẫn",
+      step_opt_1: "Bước 1: Toàn trình từ đầu (24 tháng $0)",
+      step_opt_2: "Bước 2: Bỏ qua login (Chạy 3 tầng $0)",
+      step_opt_3: "Bước 3: Đã có 12T (Chạy tầng 2+3)",
+      step_opt_4: "Bước 4: Đã có 18T (Chạy tầng 3 chạm mốc 24T)",
+      step_opt_5: "Bước 5: Chỉ huỷ gia hạn Google Play",
+      stat_total: "Tổng tài khoản",
+      stat_completed: "Đã thành công (24T)",
+      stat_running: "Đang chạy",
+      stat_waiting: "Chờ bấm Captcha",
+      stat_pending: "Chờ thực hiện",
+      stat_error: "Lỗi / Gián đoạn",
+      pipe_step1_title: "Đăng Nhập & Vượt Xác Minh",
+      pipe_step1_desc: "Tự động điền pass + mã 2FA TOTP hoặc Email khôi phục",
+      pipe_step2_title: "Tầng 1: 12 Tháng $0",
+      pipe_step2_desc: "Gói 12M Pro 5TB + YouTube Trial (Tự gắn thẻ US Oregon)",
+      pipe_step3_title: "Tầng 2: Cộng Dồn 6 Tháng $0",
+      pipe_step3_desc: "Gói S25 Pro 6M nối tiếp gia hạn lên mốc 18 tháng ($0.00)",
+      pipe_step4_title: "Tầng 3: Chạm Mốc 24 Tháng $0",
+      pipe_step4_desc: "Gói Pixel 6M gia hạn chạm trần 24 tháng (hạn 2028-10)",
+      pipe_step5_title: "Huỷ Tự Động Gia Hạn",
+      pipe_step5_desc: "Huỷ trên Play Store, khoá trọn quyền lợi 2 năm và chụp ảnh lưu",
+      card_section_title: "Thẻ Thanh Toán & Vùng Miễn Thuế",
+      btn_save_config: "Lưu Cấu Hình",
+      card_safe_notice_title: "🛡️ Cam kết $0.00 An Toàn:",
+      card_safe_notice_desc: "Chỉ liên kết thẻ để xác thực $0 dùng thử. Script tự động huỷ gia hạn ở Bước 5.",
+      card_type_support: "Hỗ trợ: Visa, Mastercard, Thẻ ảo quốc tế.",
+      lbl_card_num: "Số Thẻ (16 số)",
+      lbl_card_exp: "Hạn (Tháng/Năm)",
+      lbl_card_cvc: "Mã CVC",
+      lbl_card_holder: "Tên Chủ Thẻ",
+      lbl_region: "Vùng Miễn Thuế US (Oregon 97201)",
+      lbl_proxy: "Mẫu Proxy (Để trống nếu máy đang dùng VPN / Proxy Mỹ)",
+      btn_test_proxy: "Kiểm Tra Proxy",
+      lbl_auto_cancel: "Bảo vệ Step 5: Tự động huỷ gia hạn trên Google Play sau khi kích hoạt xong (Khoá hạn đến 2028, tuyệt đối không trừ phí).",
+      import_section_title: "Nhập Danh Sách Tài Khoản",
+      btn_import: "Nhập Ngay",
+      import_hint: "💡 Hỗ trợ cả tài khoản thường lẫn tài khoản bật 2FA (tự sinh mã TOTP).",
+      btn_clear_input: "Xoá Trắng",
+      table_section_title: "Danh Sách Tài Khoản & Tiến Trình",
+      btn_export: "Xuất File",
+      btn_reset_selected: "Đặt Lại Đã Chọn",
+      btn_delete_selected: "Xoá Đã Chọn",
+      btn_clear_all: "Xoá Hết",
+      filter_all: "Tất Cả",
+      filter_running: "⚡ Đang Chạy",
+      filter_completed: "✅ Thành Công",
+      filter_waiting: "🖐️ Cần Captcha",
+      filter_pending: "⏳ Chờ Thực Hiện",
+      filter_error: "❌ Lỗi",
+      th_id: "ID",
+      th_account: "Google Account (Email / Pass)",
+      th_2fa: "Xác Minh / Mã 2FA",
+      th_status: "Trạng Thái",
+      th_pipeline: "Tiến Trình 5 Bước",
+      th_expiry: "Thời Hạn Gói",
+      th_proof: "Ảnh Chụp",
+      th_actions: "Thao Tác",
+      terminal_title: "🖥️ Nhật Ký Tự Động (Playwright CDP Engine)",
+      log_all: "Tất cả Log",
+      log_success: "Chỉ Thành công (✅)",
+      log_warn: "Chỉ Cảnh báo (⚠️)",
+      log_err: "Chỉ Lỗi (❌)",
+      log_autoscroll: "Tự cuộn",
+      btn_copy_logs: "Sao Chép",
+      btn_clear_logs: "Làm Sạch"
+    },
+    en: {
+      app_title: "Google AI Pro (5 TB) 2 Years $0",
+      app_subtitle: "Automated 24-Month Google AI Pro 5TB Stacking & Auto-Cancel Google Play Protection",
+      badge_auto: "100% Automated",
+      badge_safe: "Zero Cost Protected",
+      btn_run_all: "Run All",
+      btn_stop_all: "Stop All",
+      btn_guide: "User Guide",
+      step_opt_1: "Step 1: Full Pipeline (24 Months $0)",
+      step_opt_2: "Step 2: Skip Login (Run 3 Stacking $0)",
+      step_opt_3: "Step 3: Have 12M (Run Tier 2+3)",
+      step_opt_4: "Step 4: Have 18M (Run Tier 3 Cap to 24M)",
+      step_opt_5: "Step 5: Only Cancel Google Play Renewal",
+      stat_total: "Total Accounts",
+      stat_completed: "Completed (24M)",
+      stat_running: "Running",
+      stat_waiting: "Waiting Captcha",
+      stat_pending: "Pending",
+      stat_error: "Errors / Stopped",
+      pipe_step1_title: "Login & Pass Verification",
+      pipe_step1_desc: "Auto fill password + 2FA TOTP or Recovery Email",
+      pipe_step2_title: "Tier 1: 12 Months $0",
+      pipe_step2_desc: "12M Pro 5TB + YouTube Trial (Auto bind US Oregon card)",
+      pipe_step3_title: "Tier 2: Stack 6 Months $0",
+      pipe_step3_desc: "S25 Pro 6M stacks valid duration to 18 months ($0.00)",
+      pipe_step4_title: "Tier 3: Cap at 24 Months $0",
+      pipe_step4_desc: "Pixel 6M caps duration to 24 months (until 2028-10)",
+      pipe_step5_title: "Auto Cancel Renewal",
+      pipe_step5_desc: "Cancel sub on Play Store, lock 2-year benefits & save screenshot",
+      card_section_title: "Payment Card & Tax-Free Region",
+      btn_save_config: "Save Settings",
+      card_safe_notice_title: "🛡️ $0.00 Safe Guarantee:",
+      card_safe_notice_desc: "Card is only linked for $0 trial verification. Script cancels renewal in Step 5.",
+      card_type_support: "Supported: Visa, Mastercard, International Virtual Cards.",
+      lbl_card_num: "Card Number (16 digits)",
+      lbl_card_exp: "Exp (MM / YY)",
+      lbl_card_cvc: "CVC Code",
+      lbl_card_holder: "Cardholder Name",
+      lbl_region: "US Tax-Free Region (Oregon 97201)",
+      lbl_proxy: "Proxy Template (Leave blank if computer is already using US VPN)",
+      btn_test_proxy: "Test Proxy",
+      lbl_auto_cancel: "Step 5 Protection: Automatically cancel Google Play renewal upon stacking completion (Locks 2028 expiry, zero charge).",
+      import_section_title: "Batch Import Accounts",
+      btn_import: "Import Now",
+      import_hint: "💡 Supports both regular accounts (recovery email) and 2FA accounts (auto TOTP).",
+      btn_clear_input: "Clear Input",
+      table_section_title: "Account Queue & Live Progress",
+      btn_export: "Export",
+      btn_reset_selected: "Reset Selected",
+      btn_delete_selected: "Delete Selected",
+      btn_clear_all: "Clear All",
+      filter_all: "All",
+      filter_running: "⚡ Running",
+      filter_completed: "✅ Completed",
+      filter_waiting: "🖐️ Captcha",
+      filter_pending: "⏳ Pending",
+      filter_error: "❌ Error",
+      th_id: "ID",
+      th_account: "Google Account (Email / Pass)",
+      th_2fa: "Auth / 2FA TOTP",
+      th_status: "Status",
+      th_pipeline: "5-Step Pipeline",
+      th_expiry: "Expiry Date",
+      th_proof: "Proof",
+      th_actions: "Actions",
+      terminal_title: "🖥️ Execution Console (Playwright CDP Engine)",
+      log_all: "All Logs",
+      log_success: "Success Only (✅)",
+      log_warn: "Warnings (⚠️)",
+      log_err: "Errors (❌)",
+      log_autoscroll: "Auto-scroll",
+      btn_copy_logs: "Copy Logs",
+      btn_clear_logs: "Clear"
     }
+  };
 
-    function stepDotsHtml(curStep, status) {
-      let html = '<div class="step-dots">';
-      for (let s = 1; s <= 5; s++) {
-        let cls = '';
-        if (status === 'completed' || s < curStep) cls = 'done';
-        else if (s === curStep && (status === 'running' || status === 'waiting_human')) cls = 'active';
-        html += `<div class="step-dot ${cls}" title="Step ${s}">${s}</div>`;
+  let savedLang = localStorage.getItem('app_lang');
+  if (savedLang === 'zh') savedLang = 'vi';
+  let currentLang = savedLang || 'vi';
+  localStorage.setItem('app_lang', currentLang);
+  let configInitialized = false;
+  let allAccounts = [];
+  let currentFilter = 'all';
+  let selectedStartSteps = {};
+  let selectedAccountIds = new Set();
+  let copiedAccountMap = {};
+  let openedBrowserMap = {};
+  let lastLogs = [];
+
+  function t(key) {
+    return (I18N[currentLang] && I18N[currentLang][key]) || (I18N['vi'][key]) || key;
+  }
+
+  function changeLanguage(lang) {
+    currentLang = lang;
+    localStorage.setItem('app_lang', lang);
+    document.getElementById('langSelect').value = lang;
+    applyLanguage();
+  }
+
+  function applyLanguage() {
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (key && I18N[currentLang] && I18N[currentLang][key]) {
+        el.textContent = I18N[currentLang][key];
       }
-      html += '</div>';
-      return html;
+    });
+    renderAccountsTable();
+  }
+
+  // Virtual Card Formatting & Preview
+  function formatCardNumber(input) {
+    let val = input.value.replace(/\D/g, '');
+    let formatted = '';
+    for (let i = 0; i < val.length; i++) {
+      if (i > 0 && i % 4 === 0) formatted += ' ';
+      formatted += val[i];
     }
+    input.value = formatted;
+    updateVCard();
+  }
 
-    function renderAccounts(accounts) {
-      const tbody = document.getElementById('accountsTbody');
-      tbody.innerHTML = accounts.map(acc => {
-        const savedStart = selectedStartSteps[acc.id] || 1;
-        const shotBtn = acc.last_screenshot
-          ? `<button class="btn-sm btn-secondary" onclick="showScreenshot('${acc.id}', '${acc.last_screenshot}')">🖼 查看</button>`
-          : `<span style="color:var(--muted);font-size:12px;">-</span>`;
+  function updateVCard() {
+    const rawNum = document.getElementById('cfgCardNumber').value.trim();
+    const vNum = document.getElementById('vCardNum');
+    const vBrand = document.getElementById('vCardBrand');
+    const vHolder = document.getElementById('vCardHolder');
+    const vExp = document.getElementById('vCardExp');
 
-        const totpHtml = (acc.totp_secret && acc.totp_now && acc.totp_now !== '------')
-          ? `<div class="totp-pill" onclick="copyText('${acc.totp_now}')" title="点击复制 6 位动态验证码">
-               <span>${acc.totp_now}</span>
-               <span class="totp-rem">${acc.totp_rem}s</span>
-             </div>`
-          : `<span style="font-size:12px; color:#34d399;">📧 辅助邮箱验证</span>`;
-
-        return `
-          <tr>
-            <td><strong>${acc.id}</strong></td>
-            <td>
-              <div style="font-weight:600; color:#f1f5f9;">${acc.email}</div>
-              <div style="font-size:11.5px; color:var(--muted); font-family:Consolas,monospace;">
-                密码: ${acc.password}
-                ${acc.recovery_email ? `<br/>辅助: ${acc.recovery_email}` : ''}
-                ${acc.ip_info ? `<span style="margin-left:6px; color:#38bdf8;">[${acc.ip_info}]</span>` : (acc.proxy ? `<span style="margin-left:6px; color:#a78bfa;">[独立代理]</span>` : '')}
-              </div>
-            </td>
-            <td>${totpHtml}</td>
-            <td>${statusBadgeHtml(acc.status)}</td>
-            <td>
-              ${stepDotsHtml(acc.current_step || 0, acc.status)}
-              <div class="step-msg">${acc.step_message || ''}</div>
-            </td>
-            <td>
-              <span style="font-weight:600; color:${(acc.expiry_date || '').includes('2027年10月') || (acc.expiry_date || '').includes('2027年11月') || (acc.expiry_date || '').includes('2028') ? '#34d399' : '#e2e8f0'}">
-                ${acc.expiry_date || '-'}
-              </span>
-            </td>
-            <td>${shotBtn}</td>
-            <td>
-              <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
-                <select
-                  style="padding:4px 6px; font-size:12px;"
-                  onchange="selectedStartSteps['${acc.id}'] = parseInt(this.value)"
-                >
-                  <option value="1" ${savedStart === 1 ? 'selected' : ''}>从 Step 1 全跑</option>
-                  <option value="2" ${savedStart === 2 ? 'selected' : ''}>从 Step 2 首层12M($0)</option>
-                  <option value="3" ${savedStart === 3 ? 'selected' : ''}>从 Step 3 二层6M($0)</option>
-                  <option value="4" ${savedStart === 4 ? 'selected' : ''}>从 Step 4 三层封顶($0)</option>
-                  <option value="5" ${savedStart === 5 ? 'selected' : ''}>从 Step 5 退订锁死</option>
-                </select>
-                <button
-                  class="btn-sm ${acc.is_running ? 'btn-danger' : 'btn-success'}"
-                  onclick="${acc.is_running ? `stopSingle('${acc.id}')` : `runSingle('${acc.id}')`}"
-                >
-                  ${acc.is_running ? '⏹ 停止' : '▶ 启动一条龙'}
-                </button>
-                <button
-                  class="btn-sm ${openedBrowserMap[acc.id] ? 'btn-success' : 'btn-secondary'}"
-                  onclick="openBrowser('${acc.id}')"
-                  title="手动打开该账号的独立 Chrome 窗口"
-                >
-                  ${openedBrowserMap[acc.id] ? '✅ 已打开' : '🌐 浏览器'}
-                </button>
-                <button class="btn-sm btn-secondary" onclick="resetAccount('${acc.id}')" title="重置状态为待执行">
-                  🔄
-                </button>
-                <button class="btn-sm btn-secondary" onclick="deleteAccount('${acc.id}')" title="移除此账号">
-                  🗑️
-                </button>
-                <button
-                  class="btn-sm ${copiedAccountMap[acc.id] ? 'btn-success' : 'btn-secondary'}"
-                  onclick="copyAccountFull('${acc.id}', '${acc.email}', '${acc.password}', '${acc.totp_secret || acc.recovery_email || ''}')"
-                  title="一键复制账号信息"
-                >
-                  ${copiedAccountMap[acc.id] ? '✅ 已复制' : '📋 复制'}
-                </button>
-              </div>
-            </td>
-          </tr>
-        `;
-      }).join('');
-    }
-
-    function renderLogs(logs) {
-      const term = document.getElementById('logTerminal');
-      const isAtBottom = term.scrollHeight - term.clientHeight <= term.scrollTop + 40;
-      term.innerHTML = logs.map(line => {
-        let cls = 'log-line';
-        if (line.includes('⚠️') || line.includes('人机验证')) cls += ' log-warn';
-        else if (line.includes('❌') || line.includes('异常')) cls += ' log-err';
-        else if (line.includes('✅') || line.includes('🎉')) cls += ' log-ok';
-        return `<div class="${cls}">${escapeHtml(line)}</div>`;
-      }).join('');
-      if (isAtBottom) {
-        term.scrollTop = term.scrollHeight;
+    if (rawNum) {
+      vNum.textContent = rawNum;
+      if (rawNum.startsWith('4')) {
+        vBrand.textContent = 'VISA';
+        vBrand.style.color = '#60a5fa';
+      } else if (rawNum.startsWith('5')) {
+        vBrand.textContent = 'MASTERCARD';
+        vBrand.style.color = '#f97316';
+      } else {
+        vBrand.textContent = 'CARD';
+        vBrand.style.color = '#fff';
       }
+    } else {
+      vNum.textContent = '•••• •••• •••• ••••';
+      vBrand.textContent = 'VISA';
     }
 
-    function escapeHtml(str) {
-      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    }
+    const holder = document.getElementById('cfgHolder').value.trim();
+    vHolder.textContent = holder ? holder.toUpperCase() : 'YOUR NAME';
 
-    function onRegionChange(region) {
-      document.getElementById('cfgAddr').value = '700 SW 5th Ave';
-      document.getElementById('cfgZip').value = '97201';
-      document.getElementById('cfgProvince').value = 'OR';
+    const mm = document.getElementById('cfgExpMonth').value.trim();
+    const yy = document.getElementById('cfgExpYear').value.trim();
+    if (mm || yy) {
+      vExp.textContent = `${mm.padStart(2, '0') || 'MM'}/${yy.padStart(2, '0') || 'YY'}`;
+    } else {
+      vExp.textContent = 'MM/YY';
     }
+  }
 
-    async function testProxyNow() {
-      const btn = document.getElementById('btnTestProxy');
-      const resBox = document.getElementById('proxyTestResult');
-      btn.disabled = true;
-      btn.textContent = '⏳ 正在检测出口 IP...';
-      resBox.style.color = '#38bdf8';
-      resBox.textContent = '正在测试代理连通性...';
-      try {
-        const region = document.getElementById('cfgTargetRegion').value;
-        const tpl = document.getElementById('cfgProxyTemplate').value.trim();
-        const res = await fetch('/api/proxy/test', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ target_region: region, proxy_template: tpl })
-        });
-        const data = await res.json();
-        if (data.ok) {
-          resBox.style.color = '#34d399';
-          resBox.textContent = '✅ ' + data.message;
-        } else {
-          resBox.style.color = '#f87171';
-          resBox.textContent = '❌ ' + data.message;
-        }
-      } catch (e) {
-        resBox.style.color = '#f87171';
-        resBox.textContent = '❌ 请求异常: ' + e;
-      } finally {
-        btn.disabled = false;
-        btn.textContent = '🔍 测试代理连通性';
-        fetchState();
+  // Import Parser Preview
+  function previewImportCount() {
+    const text = document.getElementById('importText').value;
+    const lines = text.split(/\r?\n/).map(l => l.trim()).filter(l => l && l.includes('@'));
+    const countBadge = document.getElementById('importCountBadge');
+    countBadge.textContent = (currentLang === 'vi' ? 'Đã phát hiện: ' : 'Detected: ') + lines.length + (currentLang === 'vi' ? ' tài khoản' : ' accounts');
+  }
+
+  function pasteSample(type) {
+    const textarea = document.getElementById('importText');
+    if (type === 1) {
+      textarea.value = `sampleuser1@gmail.com----Password123----recovery1@outlook.com\nsampleuser2@gmail.com----Password456----recovery2@outlook.com`;
+    } else {
+      textarea.value = `sampleuser3@gmail.com----Password789----recovery3@outlook.com----JBSWY3DPEHPK3PXP\nsampleuser4@gmail.com----Password000----JBSWY3DPEHPK3PXP`;
+    }
+    previewImportCount();
+  }
+
+  function clearImportText() {
+    document.getElementById('importText').value = '';
+    previewImportCount();
+  }
+
+  // State polling & fetch
+  async function fetchState() {
+    try {
+      const res = await fetch('/api/state');
+      const data = await res.json();
+
+      if (!configInitialized) {
+        document.getElementById('cfgTargetRegion').value = data.target_region || 'US';
+        document.getElementById('cfgAutoCancel').checked = data.auto_cancel !== false;
+        document.getElementById('cfgProxyTemplate').value = data.proxy_template || '';
+        const c = data.card || {};
+        document.getElementById('cfgCardNumber').value = c.number || '';
+        document.getElementById('cfgExpMonth').value = c.exp_month || '';
+        document.getElementById('cfgExpYear').value = c.exp_year || '';
+        document.getElementById('cfgCvc').value = c.cvc || '';
+        document.getElementById('cfgHolder').value = c.holder || '';
+        updateVCard();
+        configInitialized = true;
       }
+
+      allAccounts = data.accounts || [];
+      lastLogs = data.logs || [];
+
+      updateStats(allAccounts, data.active_count || 0);
+      renderAccountsTable();
+      renderLogs(lastLogs);
+    } catch (e) {
+      console.error('State poll error:', e);
+    }
+  }
+
+  function updateStats(accounts, activeCount) {
+    const total = accounts.length;
+    const completed = accounts.filter(a => a.status === 'completed').length;
+    const running = activeCount;
+    const waiting = accounts.filter(a => a.status === 'waiting_human').length;
+    const pending = accounts.filter(a => a.status === 'pending').length;
+    const error = accounts.filter(a => a.status === 'error').length;
+
+    document.getElementById('statTotal').textContent = total;
+    document.getElementById('statCompleted').textContent = completed;
+    document.getElementById('statRunning').textContent = running;
+    document.getElementById('statWaiting').textContent = waiting;
+    document.getElementById('statPending').textContent = pending;
+    document.getElementById('statError').textContent = error;
+
+    document.getElementById('summaryStats').textContent = 
+      `${t('stat_total')}: ${total} | ${t('stat_completed')}: ${completed} | ${t('stat_running')}: ${running}`;
+
+    // Play alert sound if waiting human captcha
+    if (waiting > 0 && !window.__alertSoundPlayed) {
+      playSound('alert');
+      window.__alertSoundPlayed = true;
+    } else if (waiting === 0) {
+      window.__alertSoundPlayed = false;
+    }
+  }
+
+  function setFilter(filter, btn) {
+    currentFilter = filter;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderAccountsTable();
+  }
+
+  function statusBadgeHtml(status) {
+    const map = {
+      pending: ['status-pending', currentLang === 'vi' ? '⏳ Chờ thực hiện' : '⏳ Pending'],
+      running: ['status-running', currentLang === 'vi' ? '⚡ Đang thực thi' : '⚡ Running'],
+      waiting_human: ['status-waiting_human', currentLang === 'vi' ? '🖐️ Chờ Captcha' : '🖐️ Waiting Captcha'],
+      completed: ['status-completed', currentLang === 'vi' ? '✅ Hoàn tất 24T' : '✅ Completed 24M'],
+      error: ['status-error', currentLang === 'vi' ? '❌ Gián đoạn' : '❌ Error'],
+      stopped: ['status-pending', currentLang === 'vi' ? '⏹ Đã dừng' : '⏹ Stopped']
+    };
+    const [cls, label] = map[status] || ['status-pending', status];
+    return `<span class="status-badge ${cls}">${label}</span>`;
+  }
+
+  function stepDotsHtml(curStep, status) {
+    let html = '<div class="step-dots">';
+    for (let s = 1; s <= 5; s++) {
+      let cls = '';
+      if (status === 'completed' || s < curStep) cls = 'done';
+      else if (s === curStep && (status === 'running' || status === 'waiting_human')) cls = 'active';
+      html += `<div class="step-dot ${cls}" title="Step ${s}">${s}</div>`;
+    }
+    html += '</div>';
+    return html;
+  }
+
+  function renderAccountsTable() {
+    const tbody = document.getElementById('accountsTbody');
+    const search = document.getElementById('tableSearch').value.toLowerCase().trim();
+
+    let filtered = allAccounts.filter(acc => {
+      if (currentFilter !== 'all' && acc.status !== currentFilter) return false;
+      if (search) {
+        const idMatch = (acc.id || '').toLowerCase().includes(search);
+        const emailMatch = (acc.email || '').toLowerCase().includes(search);
+        const proxyMatch = (acc.proxy || '').toLowerCase().includes(search);
+        return idMatch || emailMatch || proxyMatch;
+      }
+      return true;
+    });
+
+    if (filtered.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="9" style="text-align:center; padding:32px; color:var(--text-muted); font-size:13px;">${currentLang === 'vi' ? 'Không có tài khoản nào phù hợp bộ lọc.' : 'No accounts matching filter.'}</td></tr>`;
+      return;
     }
 
-    async function saveConfig() {
-      const region = document.getElementById('cfgTargetRegion').value || 'US';
-      const payload = {
-        target_region: region,
-        target_plan: document.getElementById('cfgTargetPlan').value || 'pro_2year_zero',
-        auto_cancel: document.getElementById('cfgAutoCancel').checked,
-        proxy_template: document.getElementById('cfgProxyTemplate').value.trim(),
-        card: {
-          number: document.getElementById('cfgCardNumber').value.trim(),
-          exp_month: document.getElementById('cfgExpMonth').value.trim(),
-          exp_year: document.getElementById('cfgExpYear').value.trim(),
-          cvc: document.getElementById('cfgCvc').value.trim(),
-          holder: document.getElementById('cfgHolder').value.trim(),
-          address_line1: document.getElementById('cfgAddr').value.trim() || '700 SW 5th Ave',
-          postal_code: document.getElementById('cfgZip').value.trim() || '97201',
-          locality: 'Portland',
-          province: document.getElementById('cfgProvince').value.trim() || 'OR'
-        }
-      };
-      await fetch('/api/config', {
+    tbody.innerHTML = filtered.map(acc => {
+      const isChecked = selectedAccountIds.has(acc.id);
+      const savedStart = selectedStartSteps[acc.id] || 1;
+
+      const shotBtn = acc.last_screenshot
+        ? `<button class="btn-sm btn-secondary" onclick="showScreenshot('${acc.id}', '${acc.last_screenshot}')" title="Xem ảnh xác minh">🖼 Xem</button>`
+        : `<span style="color:var(--text-dim);font-size:12px;">-</span>`;
+
+      const totpHtml = (acc.totp_secret && acc.totp_now && acc.totp_now !== '------')
+        ? `<div class="totp-pill" onclick="copyText('${acc.totp_now}')" title="Click để sao chép mã 6 số">
+             <span>${acc.totp_now}</span>
+             <span class="totp-rem">${acc.totp_rem}s</span>
+           </div>`
+        : `<span style="font-size:11.5px; color:#34d399;">📧 Mail khôi phục</span>`;
+
+      const isExpiryValid = (acc.expiry_date || '').includes('2027') || (acc.expiry_date || '').includes('2028');
+
+      return `
+        <tr>
+          <td style="text-align:center;">
+            <input type="checkbox" ${isChecked ? 'checked' : ''} onchange="toggleSelectAccount('${acc.id}', this.checked)" />
+          </td>
+          <td>
+            <strong style="color:#94a3b8; font-size:11.5px;">${acc.id}</strong>
+          </td>
+          <td>
+            <div style="font-weight:600; color:#f8fafc; font-size:13px;">${escapeHtml(acc.email)}</div>
+            <div style="font-size:11px; color:var(--text-muted); font-family:Consolas,monospace; margin-top:2px;">
+              Pass: <span style="color:#cbd5e1;">${escapeHtml(acc.password)}</span>
+              ${acc.recovery_email ? `<span style="margin-left:6px; color:#94a3b8;">[Mail: ${escapeHtml(acc.recovery_email)}]</span>` : ''}
+              ${acc.proxy ? `<span style="margin-left:6px; color:#c084fc;">[Proxy]</span>` : ''}
+            </div>
+          </td>
+          <td>${totpHtml}</td>
+          <td>${statusBadgeHtml(acc.status)}</td>
+          <td>
+            ${stepDotsHtml(acc.current_step || 0, acc.status)}
+            <div class="step-msg" title="${escapeHtml(acc.step_message || '')}">${escapeHtml(acc.step_message || '')}</div>
+          </td>
+          <td>
+            <span style="font-weight:700; color:${isExpiryValid ? '#34d399' : '#94a3b8'};">
+              ${acc.expiry_date || '-'}
+            </span>
+          </td>
+          <td style="text-align:center;">${shotBtn}</td>
+          <td>
+            <div style="display:flex; align-items:center; gap:5px; flex-wrap:wrap;">
+              <select
+                style="padding:3px 6px; font-size:11.5px;"
+                onchange="selectedStartSteps['${acc.id}'] = parseInt(this.value)"
+              >
+                <option value="1" ${savedStart === 1 ? 'selected' : ''}>${currentLang === 'vi' ? 'Step 1: Toàn bộ' : 'Step 1: Full'}</option>
+                <option value="2" ${savedStart === 2 ? 'selected' : ''}>${currentLang === 'vi' ? 'Step 2: 12T $0' : 'Step 2: 12M'}</option>
+                <option value="3" ${savedStart === 3 ? 'selected' : ''}>${currentLang === 'vi' ? 'Step 3: 18T $0' : 'Step 3: 18M'}</option>
+                <option value="4" ${savedStart === 4 ? 'selected' : ''}>${currentLang === 'vi' ? 'Step 4: 24T $0' : 'Step 4: 24M'}</option>
+                <option value="5" ${savedStart === 5 ? 'selected' : ''}>${currentLang === 'vi' ? 'Step 5: Huỷ gia hạn' : 'Step 5: Cancel'}</option>
+              </select>
+
+              <button
+                class="btn-sm ${acc.is_running ? 'btn-danger' : 'btn-success'}"
+                onclick="${acc.is_running ? `stopSingle('${acc.id}')` : `runSingle('${acc.id}')`}"
+                title="${acc.is_running ? 'Dừng tiến trình này' : 'Bắt đầu chạy tài khoản này'}"
+              >
+                ${acc.is_running ? '⏹ Dừng' : '▶ Chạy'}
+              </button>
+
+              <button
+                class="btn-sm ${openedBrowserMap[acc.id] ? 'btn-success' : 'btn-secondary'}"
+                onclick="openBrowser('${acc.id}')"
+                title="Mở trình duyệt Chrome với profile độc lập của tài khoản này"
+              >
+                ${openedBrowserMap[acc.id] ? '✅ Mở' : '🌐 Browser'}
+              </button>
+
+              <button class="btn-sm btn-outline" onclick="openEditModal('${acc.id}')" title="Chỉnh sửa thông tin">
+                ✏️
+              </button>
+
+              <button class="btn-sm btn-outline" onclick="resetAccount('${acc.id}')" title="Đặt lại trạng thái về ban đầu">
+                🔄
+              </button>
+
+              <button class="btn-sm btn-outline" onclick="deleteAccount('${acc.id}')" title="Xoá tài khoản này" style="color:#f87171;">
+                🗑️
+              </button>
+
+              <button
+                class="btn-sm ${copiedAccountMap[acc.id] ? 'btn-success' : 'btn-outline'}"
+                onclick="copyAccountFull('${acc.id}', '${acc.email}', '${acc.password}', '${acc.totp_secret || acc.recovery_email || ''}')"
+                title="Sao chép toàn bộ thông tin tài khoản"
+              >
+                ${copiedAccountMap[acc.id] ? '✅' : '📋'}
+              </button>
+            </div>
+          </td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  function toggleSelectAll(checked) {
+    if (checked) {
+      allAccounts.forEach(a => selectedAccountIds.add(a.id));
+    } else {
+      selectedAccountIds.clear();
+    }
+    renderAccountsTable();
+  }
+
+  function toggleSelectAccount(id, checked) {
+    if (checked) {
+      selectedAccountIds.add(id);
+    } else {
+      selectedAccountIds.delete(id);
+    }
+    const selectAllBox = document.getElementById('selectAllCheckbox');
+    if (selectAllBox) {
+      selectAllBox.checked = selectedAccountIds.size === allAccounts.length && allAccounts.length > 0;
+    }
+  }
+
+  // Logs rendering
+  function renderLogs(logs) {
+    const term = document.getElementById('logTerminal');
+    const filter = document.getElementById('logLevelFilter').value;
+    const autoScroll = document.getElementById('autoScrollCheck').checked;
+
+    let filtered = logs;
+    if (filter === 'ok') {
+      filtered = logs.filter(l => l.includes('✅') || l.includes('🎉'));
+    } else if (filter === 'warn') {
+      filtered = logs.filter(l => l.includes('⚠️') || l.includes('Captcha') || l.includes('Cảnh báo'));
+    } else if (filter === 'err') {
+      filtered = logs.filter(l => l.includes('❌') || l.includes('Lỗi') || l.includes('Failed') || l.includes('Error'));
+    }
+
+    term.innerHTML = filtered.map(line => {
+      let cls = 'log-line';
+      if (line.includes('⚠️') || line.includes('Captcha') || line.includes('Cảnh báo')) cls += ' log-warn';
+      else if (line.includes('❌') || line.includes('Lỗi') || line.includes('Failed') || line.includes('Error')) cls += ' log-err';
+      else if (line.includes('✅') || line.includes('🎉') || line.includes('Thành công')) cls += ' log-ok';
+      else if (line.includes('[SYSTEM]') || line.includes('[CONFIG]') || line.includes('[PROXY]')) cls += ' log-sys';
+      return `<div class="${cls}">${escapeHtml(line)}</div>`;
+    }).join('');
+
+    if (autoScroll) {
+      term.scrollTop = term.scrollHeight;
+    }
+  }
+
+  function filterLogs() {
+    renderLogs(lastLogs);
+  }
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  // Action Handlers
+  async function saveConfig() {
+    const payload = {
+      target_region: 'US',
+      target_plan: 'pro_2year_zero',
+      auto_cancel: document.getElementById('cfgAutoCancel').checked,
+      proxy_template: document.getElementById('cfgProxyTemplate').value.trim(),
+      card: {
+        number: document.getElementById('cfgCardNumber').value.replace(/\s+/g, ''),
+        exp_month: document.getElementById('cfgExpMonth').value.trim(),
+        exp_year: document.getElementById('cfgExpYear').value.trim(),
+        cvc: document.getElementById('cfgCvc').value.trim(),
+        holder: document.getElementById('cfgHolder').value.trim(),
+        address_line1: '700 SW 5th Ave',
+        postal_code: '97201',
+        locality: 'Portland',
+        province: 'OR'
+      }
+    };
+    await fetch('/api/config', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    fetchState();
+  }
+
+  async function testProxyNow() {
+    const btn = document.getElementById('btnTestProxy');
+    const resBox = document.getElementById('proxyTestResult');
+    btn.disabled = true;
+    btn.innerHTML = '⏳ Đang kiểm tra...';
+    resBox.style.color = '#38bdf8';
+    resBox.textContent = 'Đang kiểm tra kết nối IP đầu ra...';
+
+    try {
+      const tpl = document.getElementById('cfgProxyTemplate').value.trim();
+      const res = await fetch('/api/proxy/test', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-      fetchState();
-    }
-
-    async function importAccounts() {
-      const raw = document.getElementById('importText').value.trim();
-      if (!raw) return alert('请先在文本框中粘贴要导入的账号！');
-      const res = await fetch('/api/accounts/import', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ raw_text: raw })
+        body: JSON.stringify({ target_region: 'US', proxy_template: tpl })
       });
       const data = await res.json();
       if (data.ok) {
-        document.getElementById('importText').value = '';
-        fetchState();
+        resBox.style.color = '#34d399';
+        resBox.textContent = '✅ ' + data.message;
+      } else {
+        resBox.style.color = '#f87171';
+        resBox.textContent = '❌ ' + data.message;
       }
-    }
-
-    function validateCardBeforeRun(startStep) {
-      if (startStep > 4) return true;
-      const num = document.getElementById('cfgCardNumber').value.replace(/\s+/g, '');
-      const expM = document.getElementById('cfgExpMonth').value.trim();
-      const expY = document.getElementById('cfgExpYear').value.trim();
-      const cvc = document.getElementById('cfgCvc').value.trim();
-      if (num.length < 12 || !expM || !expY || !cvc) {
-        alert('⚠️ 请先在左侧【全局配置与内联免税绑卡】中填写您的支付卡信息（卡号、有效期月/年、CVC 安全码）后再开始执行！');
-        document.getElementById('cfgCardNumber').focus();
-        return false;
-      }
-      return true;
-    }
-
-    async function runSingle(accountId) {
-      const startStep = selectedStartSteps[accountId] || 1;
-      if (!validateCardBeforeRun(startStep)) return;
-      await saveConfig();
-      const res = await fetch('/api/run/single', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ account_id: accountId, start_step: startStep })
-      });
-      if (!res.ok) {
-        const err = await res.json();
-        alert(err.detail || '启动失败');
-      }
+    } catch (e) {
+      resBox.style.color = '#f87171';
+      resBox.textContent = '❌ Lỗi kết nối: ' + e;
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg> <span>${t('btn_test_proxy')}</span>`;
       fetchState();
     }
+  }
 
-    async function runBatch() {
-      const startStep = parseInt(document.getElementById('batchStartStep').value || '1');
-      if (!validateCardBeforeRun(startStep)) return;
-      await saveConfig();
-      const res = await fetch('/api/run/batch', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ start_step: startStep })
-      });
-      if (!res.ok) {
-        const err = await res.json();
-        alert(err.detail || '批量启动失败');
-      }
+  async function importAccounts() {
+    const raw = document.getElementById('importText').value.trim();
+    if (!raw) return alert('Vui lòng dán danh sách tài khoản trước khi bấm nhập!');
+    const res = await fetch('/api/accounts/import', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ raw_text: raw })
+    });
+    const data = await res.json();
+    if (data.ok) {
+      document.getElementById('importText').value = '';
+      previewImportCount();
       fetchState();
     }
+  }
 
-    async function stopSingle(accountId) {
-      await fetch('/api/stop', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ account_id: accountId })
-      });
-      fetchState();
+  function validateCardBeforeRun(startStep) {
+    if (startStep > 4) return true;
+    const num = document.getElementById('cfgCardNumber').value.replace(/\s+/g, '');
+    const expM = document.getElementById('cfgExpMonth').value.trim();
+    const expY = document.getElementById('cfgExpYear').value.trim();
+    const cvc = document.getElementById('cfgCvc').value.trim();
+    if (num.length < 12 || !expM || !expY || !cvc) {
+      alert('⚠️ Vui lòng điền thông tin Thẻ Thanh Toán (Số thẻ, Tháng/Năm, CVC) trước khi bắt đầu!');
+      document.getElementById('cfgCardNumber').focus();
+      return false;
     }
+    return true;
+  }
 
-    async function stopAll() {
-      await fetch('/api/stop', { method: 'POST' });
-      fetchState();
+  async function runSingle(accountId) {
+    const startStep = selectedStartSteps[accountId] || 1;
+    if (!validateCardBeforeRun(startStep)) return;
+    await saveConfig();
+    const res = await fetch('/api/run/single', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ account_id: accountId, start_step: startStep })
+    });
+    if (!res.ok) {
+      const err = await res.json();
+      alert(err.detail || 'Khởi chạy thất bại');
     }
-
-    async function openBrowser(accountId) {
-      openedBrowserMap[accountId] = true;
-      fetchState();
-      await fetch('/api/open_browser', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ account_id: accountId })
-      });
-      setTimeout(() => {
-        delete openedBrowserMap[accountId];
-        fetchState();
-      }, 2500);
-    }
-
-    async function resetAccount(accountId) {
-      await fetch('/api/accounts/reset', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ account_id: accountId })
-      });
-      fetchState();
-    }
-
-    async function deleteAccount(accountId) {
-      if (!confirm(`确定要从列表中移除账号 ${accountId} 吗？`)) return;
-      await fetch('/api/accounts/delete', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ account_id: accountId })
-      });
-      fetchState();
-    }
-
-    function showScreenshot(accId, filename) {
-      document.getElementById('modalTitle').textContent = `${accId} 最新核验截图 (${filename})`;
-      document.getElementById('modalImg').src = `/screenshots/${filename}?t=${Date.now()}`;
-      document.getElementById('imgModal').style.display = 'flex';
-    }
-
-    function closeModal() {
-      document.getElementById('imgModal').style.display = 'none';
-    }
-
-    function copyText(txt) {
-      navigator.clipboard.writeText(txt);
-    }
-
-    function copyAccountFull(accId, email, password, totpSecret) {
-      const fullStr = `${email}----${password}----${totpSecret}`;
-      navigator.clipboard.writeText(fullStr);
-      copiedAccountMap[accId] = true;
-      fetchState();
-      setTimeout(() => {
-        delete copiedAccountMap[accId];
-        fetchState();
-      }, 2000);
-    }
-
     fetchState();
-    setInterval(fetchState, 1500);
-  </script>
+  }
+
+  async function runBatch() {
+    const startStep = parseInt(document.getElementById('batchStartStep').value || '1');
+    if (!validateCardBeforeRun(startStep)) return;
+    await saveConfig();
+
+    let accountIds = null;
+    if (selectedAccountIds.size > 0) {
+      accountIds = Array.from(selectedAccountIds);
+    }
+
+    const res = await fetch('/api/run/batch', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ account_ids: accountIds, start_step: startStep })
+    });
+    if (!res.ok) {
+      const err = await res.json();
+      alert(err.detail || 'Không thể bắt đầu hàng đợi tự động');
+    }
+    fetchState();
+  }
+
+  async function stopSingle(accountId) {
+    await fetch('/api/stop', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ account_id: accountId })
+    });
+    fetchState();
+  }
+
+  async function stopAll() {
+    await fetch('/api/stop', { method: 'POST' });
+    fetchState();
+  }
+
+  async function openBrowser(accountId) {
+    openedBrowserMap[accountId] = true;
+    renderAccountsTable();
+    await fetch('/api/open_browser', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ account_id: accountId })
+    });
+    setTimeout(() => {
+      delete openedBrowserMap[accountId];
+      renderAccountsTable();
+    }, 2500);
+  }
+
+  async function resetAccount(accountId) {
+    await fetch('/api/accounts/reset', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ account_id: accountId })
+    });
+    fetchState();
+  }
+
+  async function deleteAccount(accountId) {
+    if (!confirm(`Bạn có chắc chắn muốn xoá tài khoản ${accountId} không?`)) return;
+    await fetch('/api/accounts/delete', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ account_id: accountId })
+    });
+    selectedAccountIds.delete(accountId);
+    fetchState();
+  }
+
+  async function batchResetSelected() {
+    if (selectedAccountIds.size === 0) return alert('Vui lòng chọn ít nhất 1 tài khoản!');
+    await fetch('/api/accounts/batch_reset', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ account_ids: Array.from(selectedAccountIds) })
+    });
+    fetchState();
+  }
+
+  async function batchDeleteSelected() {
+    if (selectedAccountIds.size === 0) return alert('Vui lòng chọn ít nhất 1 tài khoản!');
+    if (!confirm(`Xoá ${selectedAccountIds.size} tài khoản đã chọn?`)) return;
+    await fetch('/api/accounts/batch_delete', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ account_ids: Array.from(selectedAccountIds) })
+    });
+    selectedAccountIds.clear();
+    fetchState();
+  }
+
+  async function clearAllAccounts() {
+    if (!confirm('CẢNH BÁO: Bạn có chắc chắn muốn xoá TOÀN BỘ tài khoản trong danh sách?')) return;
+    await fetch('/api/accounts/clear_all', { method: 'POST' });
+    selectedAccountIds.clear();
+    fetchState();
+  }
+
+  async function clearLogsConsole() {
+    await fetch('/api/logs/clear', { method: 'POST' });
+    fetchState();
+  }
+
+  function copyAllLogs() {
+    const term = document.getElementById('logTerminal');
+    navigator.clipboard.writeText(term.innerText);
+    alert('Đã sao chép toàn bộ nhật ký vào Clipboard!');
+  }
+
+  // Edit Account Modal
+  function openEditModal(accId) {
+    const acc = allAccounts.find(a => a.id === accId);
+    if (!acc) return;
+    document.getElementById('editAccId').value = acc.id;
+    document.getElementById('editEmail').value = acc.email || '';
+    document.getElementById('editPassword').value = acc.password || '';
+    document.getElementById('editRecovery').value = acc.recovery_email || '';
+    document.getElementById('editTotp').value = acc.totp_secret || '';
+    document.getElementById('editProxy').value = acc.proxy || '';
+    document.getElementById('editModal').style.display = 'flex';
+  }
+
+  async function saveEditedAccount() {
+    const accId = document.getElementById('editAccId').value;
+    const payload = {
+      account_id: accId,
+      email: document.getElementById('editEmail').value.trim(),
+      password: document.getElementById('editPassword').value.trim(),
+      recovery_email: document.getElementById('editRecovery').value.trim(),
+      totp_secret: document.getElementById('editTotp').value.trim(),
+      proxy: document.getElementById('editProxy').value.trim()
+    };
+    await fetch('/api/accounts/edit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    closeModal('editModal');
+    fetchState();
+  }
+
+  // Export Modal & Execution
+  function openExportModal() {
+    document.getElementById('exportModal').style.display = 'flex';
+  }
+
+  function executeExport() {
+    const filter = document.getElementById('exportFilterSelect').value;
+    const format = document.getElementById('exportFormatSelect').value;
+
+    let targets = allAccounts;
+    if (filter === 'completed') {
+      targets = allAccounts.filter(a => a.status === 'completed');
+    }
+
+    if (targets.length === 0) {
+      alert('Không có tài khoản nào phù hợp để xuất!');
+      return;
+    }
+
+    let content = '';
+    let mimeType = 'text/plain;charset=utf-8';
+    let ext = 'txt';
+
+    if (format === 'txt_standard') {
+      content = targets.map(a => `${a.email}----${a.password}----${a.expiry_date || '-'}`).join('\n');
+    } else if (format === 'txt_full') {
+      content = targets.map(a => `${a.email}----${a.password}----${a.recovery_email || ''}----${a.totp_secret || ''}----${a.expiry_date || '-'}`).join('\n');
+    } else if (format === 'csv') {
+      mimeType = 'text/csv;charset=utf-8';
+      ext = 'csv';
+      const header = 'ID,Email,Password,RecoveryEmail,TOTPSecret,Status,ExpiryDate\n';
+      const rows = targets.map(a => `"${a.id}","${a.email}","${a.password}","${a.recovery_email || ''}","${a.totp_secret || ''}","${a.status}","${a.expiry_date || '-'}"`).join('\n');
+      content = header + rows;
+    } else if (format === 'json') {
+      mimeType = 'application/json;charset=utf-8';
+      ext = 'json';
+      content = JSON.stringify(targets, null, 2);
+    }
+
+    const blob = new Blob([content], { type: mimeType });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `google_ai_pro_accounts_${Date.now()}.${ext}`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    closeModal('exportModal');
+  }
+
+  // Screenshots & Utilities
+  function showScreenshot(accId, filename) {
+    document.getElementById('modalTitle').textContent = `🖼️ ${accId} - Ảnh Chụp Xác Thực (${filename})`;
+    const src = `/screenshots/${filename}?t=${Date.now()}`;
+    document.getElementById('modalImg').src = src;
+    document.getElementById('btnDownloadImg').href = src;
+    document.getElementById('imgModal').style.display = 'flex';
+  }
+
+  function openGuideModal() {
+    document.getElementById('guideModal').style.display = 'flex';
+  }
+
+  function closeModal(id) {
+    document.getElementById(id).style.display = 'none';
+  }
+
+  function copyText(txt) {
+    navigator.clipboard.writeText(txt);
+  }
+
+  function copyAccountFull(accId, email, password, totpOrRecovery) {
+    const fullStr = `${email}----${password}----${totpOrRecovery}`;
+    navigator.clipboard.writeText(fullStr);
+    copiedAccountMap[accId] = true;
+    renderAccountsTable();
+    setTimeout(() => {
+      delete copiedAccountMap[accId];
+      renderAccountsTable();
+    }, 2000);
+  }
+
+  // Initialization
+  changeLanguage(currentLang);
+  fetchState();
+  setInterval(fetchState, 1500);
+</script>
 </body>
 </html>
