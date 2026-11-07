@@ -1363,16 +1363,22 @@ class GoogleUltraAutomator:
             step4_milestones = ["2028年10月", "2028年11月", "2028年12月", "Oct 2028", "Nov 2028", "Dec 2028"]
             if await self.recheck_coverage_complete(page, step4_milestones, "step4_layer3_6m"):
                 return
-            raise RuntimeError(f"Step 4 (Layer 3 6-Month Cap US$0.00) failed: {self.last_subscribe_error}")
+            # Non-fatal: warn and continue to Step 5 instead of aborting the pipeline.
+            self.log(f"⚠️ Step 4 (Layer 3 6-Month Cap US$0.00) did not complete: {self.last_subscribe_error}. Continuing to Step 5 anyway.")
+            self.update_state(step_message="⚠️ Step 4 incomplete — continuing to Step 5")
+            return
 
         self.log("✅ Step 4 (Layer 3 6-Month Cap US$0.00 -> 24 Months) completed! Waiting 40s to sync final expiration...")
         await asyncio.sleep(40)
         play_after = await self.inspect_play_subscriptions(page)
         if "2028" not in play_after:
-            raise RuntimeError(
-                "Step 4 modal closed, but the Play subscription expiry did NOT advance to 2028 "
-                f"(current Play status: {play_after[:120]})"
+            # Non-fatal: warn and continue to Step 5 instead of aborting the pipeline.
+            self.log(
+                "⚠️ Step 4 modal closed, but the Play subscription expiry did NOT advance to 2028 "
+                f"(current Play status: {play_after[:120]}). Continuing to Step 5 anyway."
             )
+            self.update_state(step_message="⚠️ Step 4 not verified to 2028 — continuing to Step 5")
+            return
         self.log("✅ Step 4 (US$0.00 2-year stack to 2028) verified on Play Store!")
 
     async def step5_cancel_and_verify(self, page):
