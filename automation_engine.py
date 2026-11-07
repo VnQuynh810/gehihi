@@ -13,6 +13,7 @@ from aipro.settings import (
     SCREENSHOTS_DIR,
     _find_chrome_path,
     get_profile_dir,
+    cleanup_profile_cache,
     is_port_open,
 )
 from aipro.tokens import (
@@ -42,6 +43,7 @@ __all__ = [
     "SCREENSHOTS_DIR",
     "_find_chrome_path",
     "get_profile_dir",
+    "cleanup_profile_cache",
     "is_port_open",
     "HOOK_JS",
     "get_totp",

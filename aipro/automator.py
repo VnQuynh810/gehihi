@@ -1653,3 +1653,12 @@ class GoogleUltraAutomator:
                     )
                 except Exception:
                     pass
+            # Profile saving is disabled: delete this run's throwaway Chrome profile
+            # so nothing accumulates on disk.
+            try:
+                import shutil as _shutil
+                await asyncio.sleep(1.0)  # let Chrome release its file locks first
+                if user_data_dir and os.path.isdir(user_data_dir):
+                    _shutil.rmtree(user_data_dir, ignore_errors=True)
+            except Exception:
+                pass

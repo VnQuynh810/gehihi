@@ -24,6 +24,7 @@ from automation_engine import (
     LocalHttpProxyAuthBridge,
     get_totp,
     get_profile_dir,
+    cleanup_profile_cache,
     resolve_account_proxy,
     parse_proxy_string,
     CHROME_PATH,
@@ -110,6 +111,18 @@ def append_log(line: str):
     LOGS.append(line)
     if len(LOGS) > 500:
         del LOGS[: len(LOGS) - 500]
+
+
+# Profile saving is disabled — remove any throwaway Chrome profiles left over from
+# previous sessions so nothing accumulates on disk.
+try:
+    _removed_profiles = cleanup_profile_cache()
+    if _removed_profiles:
+        append_log(
+            f"[{time.strftime('%H:%M:%S')}] [SYSTEM] 🧹 Cleaned up {_removed_profiles} leftover temporary Chrome profile(s)"
+        )
+except Exception:
+    pass
 
 
 class ConfigUpdateReq(BaseModel):
