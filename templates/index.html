@@ -1,0 +1,2261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Google AI Pro Provisioning Console</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      /* Graphite Neutral Ramp */
+      --bg-deep: #0f0f10;
+      --bg-page: #141415;
+      --bg-card: #19191b;
+      --bg-raised: #232325;
+      --bg-raised-hover: #2c2c2f;
+
+      /* Hairlines */
+      --border: rgba(237, 237, 237, 0.08);
+      --border-strong: rgba(237, 237, 237, 0.16);
+      --top-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+
+      /* Three Text Roles */
+      --text-primary: #ededed;
+      --text-secondary: #a1a1a6;
+      --text-muted: #85858b;
+
+      /* Single Accent + Toned Semantics */
+      --accent: #3b82f6;
+      --accent-soft: rgba(59, 130, 246, 0.14);
+      --positive: #4cc38a;
+      --positive-soft: rgba(76, 195, 138, 0.12);
+      --warning: #e5a000;
+      --warning-soft: rgba(229, 160, 0, 0.12);
+      --danger: #e5484d;
+      --danger-soft: rgba(229, 72, 77, 0.12);
+
+      /* Typography */
+      --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-mono: "JetBrains Mono", Consolas, monospace;
+
+      /* Motion */
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-page);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      font-size: 14px;
+      line-height: 20px;
+      font-weight: 400;
+      -webkit-font-smoothing: antialiased;
+      padding: 24px 32px 48px;
+    }
+
+    .shell {
+      max-width: 1520px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* Icon Base */
+    .icon {
+      width: 16px;
+      height: 16px;
+      stroke-width: 1.5;
+      stroke: currentColor;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
+    }
+
+    /* Top Bar */
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+      background-color: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 24px;
+    }
+
+    .brand-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .brand-title-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-mark {
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      background-color: var(--bg-raised);
+      border: 1px solid var(--border-strong);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-primary);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .brand-title-row h1 {
+      font-size: 18px;
+      line-height: 24px;
+      font-weight: 500;
+      color: var(--text-primary);
+      letter-spacing: -0.01em;
+    }
+
+    .brand-meta {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 16px;
+      color: var(--text-muted);
+      font-variant-numeric: tabular-nums;
+      padding: 2px 8px;
+      background-color: var(--bg-deep);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+    }
+
+    .brand-sub {
+      font-size: 13px;
+      line-height: 20px;
+      color: var(--text-secondary);
+      padding-left: 36px;
+    }
+
+    .topbar-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    /* Controls: Inputs, Selects, Buttons */
+    input,
+    select,
+    textarea {
+      background-color: var(--bg-deep);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      border-radius: 8px;
+      height: 36px;
+      padding: 0 12px;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      line-height: 20px;
+      outline: none;
+      transition: border-color 150ms var(--ease), background-color 150ms var(--ease);
+    }
+
+    textarea {
+      height: auto;
+      padding: 12px;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: var(--text-muted);
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--accent);
+      background-color: var(--bg-page);
+    }
+
+    button {
+      cursor: pointer;
+      height: 36px;
+      padding: 0 16px;
+      border-radius: 8px;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      line-height: 20px;
+      font-weight: 500;
+      border: 1px solid transparent;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      white-space: nowrap;
+      transition: background-color 150ms var(--ease), border-color 150ms var(--ease), color 150ms var(--ease), transform 120ms var(--ease), opacity 150ms var(--ease);
+    }
+
+    button:active:not(:disabled) {
+      transform: scale(0.98);
+    }
+
+    button:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    /* Primary action on dark: off-white from ramp with dark text */
+    .btn-primary {
+      background-color: var(--text-primary);
+      color: var(--bg-page);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background-color: #ffffff;
+    }
+
+    /* Secondary surface button */
+    .btn-secondary {
+      background-color: var(--bg-raised);
+      border-color: var(--border);
+      color: var(--text-primary);
+      box-shadow: var(--top-highlight);
+    }
+
+    .btn-secondary:hover:not(:disabled) {
+      background-color: var(--bg-raised-hover);
+      border-color: var(--border-strong);
+    }
+
+    .btn-secondary-muted {
+      background-color: transparent;
+      border-color: var(--border);
+      color: var(--text-secondary);
+    }
+
+    .btn-secondary-muted:hover:not(:disabled) {
+      background-color: var(--bg-raised);
+      color: var(--text-primary);
+    }
+
+    /* Danger button */
+    .btn-danger {
+      background-color: var(--danger-soft);
+      border-color: rgba(229, 72, 77, 0.28);
+      color: #f87171;
+    }
+
+    .btn-danger:hover:not(:disabled) {
+      background-color: rgba(229, 72, 77, 0.22);
+      color: #fecaca;
+    }
+
+    .btn-sm {
+      height: 32px;
+      padding: 0 10px;
+      font-size: 12px;
+      border-radius: 6px;
+      gap: 6px;
+    }
+
+    .btn-icon {
+      width: 32px;
+      height: 32px;
+      padding: 0;
+      border-radius: 6px;
+    }
+
+    /* 5-Stage Cumulative Ledger Bar (Moment 2 + Signature Keycaps) */
+    .ledger-strip {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      background-color: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .ledger-stage {
+      padding: 16px 20px;
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      position: relative;
+    }
+
+    .ledger-stage:last-child {
+      border-right: none;
+    }
+
+    .ledger-stage-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .keycap-step {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 16px;
+      font-weight: 500;
+      font-variant-numeric: tabular-nums;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background-color: var(--bg-raised);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .keycap-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: var(--text-muted);
+    }
+
+    .ledger-stage-delta {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 16px;
+      color: var(--text-muted);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .ledger-stage-delta.accent {
+      color: var(--accent);
+    }
+
+    .ledger-stage-delta.positive {
+      color: var(--positive);
+    }
+
+    .ledger-stage-title {
+      font-size: 13px;
+      line-height: 20px;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+
+    .ledger-stage-desc {
+      font-size: 12px;
+      line-height: 16px;
+      color: var(--text-muted);
+    }
+
+    /* Main Configuration Grid */
+    .config-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+      gap: 20px;
+    }
+
+    .card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      min-width: 0;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .card-header-left {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+    }
+
+    .card-title {
+      font-size: 15px;
+      line-height: 20px;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+
+    .card-subtitle {
+      font-size: 12px;
+      line-height: 16px;
+      color: var(--text-muted);
+    }
+
+    /* Billing Split: Rendered Payment Card + Form */
+    .billing-layout {
+      display: grid;
+      grid-template-columns: 236px minmax(0, 1fr);
+      gap: 20px;
+      align-items: start;
+    }
+
+    /* Moment 1: Physical Payment Card Built in Code */
+    .payment-card-visual {
+      background: linear-gradient(165deg, #26272b 0%, #161719 100%);
+      border: 1px solid var(--border-strong);
+      border-radius: 10px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 160px;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 8px 20px rgba(0, 0, 0, 0.28);
+      position: relative;
+      user-select: none;
+    }
+
+    .pcard-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .pcard-chip {
+      width: 32px;
+      height: 24px;
+      border-radius: 4px;
+      background: linear-gradient(135deg, #d4af37 0%, #997a15 100%);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      opacity: 0.85;
+      position: relative;
+    }
+
+    .pcard-chip::after {
+      content: "";
+      position: absolute;
+      inset: 4px;
+      border: 1px solid rgba(0, 0, 0, 0.35);
+      border-radius: 2px;
+    }
+
+    .pcard-zero-tag {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      line-height: 16px;
+      font-weight: 500;
+      color: var(--positive);
+      background-color: var(--positive-soft);
+      border: 1px solid rgba(76, 195, 138, 0.24);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .pcard-number {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      line-height: 20px;
+      font-weight: 500;
+      color: var(--text-primary);
+      letter-spacing: 0.06em;
+      font-variant-numeric: tabular-nums;
+      margin-top: 8px;
+    }
+
+    .pcard-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 8px;
+    }
+
+    .pcard-meta-col {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+
+    .pcard-meta-label {
+      font-size: 10px;
+      line-height: 12px;
+      color: var(--text-muted);
+    }
+
+    .pcard-meta-val {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      line-height: 16px;
+      color: var(--text-secondary);
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .pcard-tax-footnote {
+      margin-top: 12px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      background-color: var(--bg-deep);
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .pcard-tax-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      line-height: 16px;
+      color: var(--text-secondary);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Form Grid */
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-width: 0;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      min-width: 0;
+    }
+
+    .form-group.col-1 {
+      grid-column: span 1;
+    }
+
+    .form-group.col-2 {
+      grid-column: span 2;
+    }
+
+    .form-group.col-3 {
+      grid-column: span 3;
+    }
+
+    .form-group.col-6 {
+      grid-column: span 6;
+    }
+
+    .form-group label {
+      font-size: 12px;
+      line-height: 16px;
+      color: var(--text-secondary);
+      font-weight: 400;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .input-pair {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 8px;
+    }
+
+    .input-pair input {
+      padding: 0 10px;
+    }
+
+    .mono-input {
+      font-family: var(--font-mono);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .proxy-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .proxy-status {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 16px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .checkbox-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+      font-size: 13px;
+      line-height: 20px;
+      color: var(--text-secondary);
+      cursor: pointer;
+    }
+
+    .checkbox-row input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      accent-color: var(--accent);
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .checkbox-row strong {
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+
+    /* Bulk Import Area */
+    .import-box {
+      flex: 1;
+      width: 100%;
+      min-height: 200px;
+      resize: none;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 20px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .format-tokens {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .format-token-list {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .token-tag {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      line-height: 16px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background-color: var(--bg-deep);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+    }
+
+    .token-sep {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    /* Summary Metrics Bar inside Queue Card */
+    .queue-stats {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 16px;
+      color: var(--text-secondary);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .stat-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .stat-val {
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    /* Accounts Table & Custom Scrollbar */
+    .table-wrap {
+      overflow-x: auto;
+      margin: 0 -24px -20px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 255, 255, 0.22) var(--bg-deep);
+    }
+
+    .table-wrap::-webkit-scrollbar,
+    .terminal::-webkit-scrollbar {
+      height: 8px;
+      width: 8px;
+    }
+
+    .table-wrap::-webkit-scrollbar-track,
+    .terminal::-webkit-scrollbar-track {
+      background: var(--bg-deep);
+      border-top: 1px solid var(--border);
+    }
+
+    .table-wrap::-webkit-scrollbar-thumb,
+    .terminal::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+    }
+
+    .table-wrap::-webkit-scrollbar-thumb:hover,
+    .terminal::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.34);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-variant-numeric: tabular-nums;
+    }
+
+    th,
+    td {
+      padding: 12px 8px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+    }
+
+    th:first-child,
+    td:first-child {
+      padding-left: 24px;
+    }
+
+    th:last-child,
+    td:last-child {
+      padding-right: 24px;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    th {
+      color: var(--text-muted);
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 16px;
+      background-color: var(--bg-deep);
+      border-top: 1px solid var(--border);
+      white-space: nowrap;
+    }
+
+    tbody tr {
+      transition: background-color 120ms var(--ease);
+    }
+
+    tbody tr:hover td {
+      background-color: rgba(255, 255, 255, 0.02);
+    }
+
+    .acc-id {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 16px;
+      color: var(--text-secondary);
+      white-space: nowrap;
+    }
+
+    .acc-slot {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .acc-slot-num {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      line-height: 16px;
+      font-weight: 500;
+      font-variant-numeric: tabular-nums;
+      color: var(--text-primary);
+      background-color: var(--bg-raised);
+      border: 1px solid var(--border-strong);
+      border-radius: 4px;
+      padding: 2px 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 1px;
+    }
+
+    .acc-slot-hash {
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    .acc-slot-name {
+      font-size: 12px;
+      line-height: 16px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      max-width: 72px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .acc-email {
+      font-size: 13px;
+      line-height: 20px;
+      font-weight: 500;
+      color: var(--text-primary);
+      white-space: nowrap;
+    }
+
+    .acc-meta {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 16px;
+      color: var(--text-muted);
+      margin-top: 4px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .acc-meta-row {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    /* Smooth Hover-to-Reveal Pill for Password & Egress IP */
+    .secret-reveal {
+      position: relative;
+      display: inline-grid;
+      align-items: center;
+      background-color: var(--bg-deep);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1px 6px;
+      cursor: pointer;
+      user-select: none;
+      transition: border-color 160ms var(--ease), background-color 160ms var(--ease);
+    }
+
+    .secret-reveal:hover {
+      border-color: var(--border-strong);
+      background-color: var(--bg-raised);
+    }
+
+    .secret-mask,
+    .secret-val {
+      grid-area: 1 / 1;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      line-height: 16px;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+      transition: opacity 180ms var(--ease), filter 180ms var(--ease), transform 180ms var(--ease);
+    }
+
+    .secret-mask {
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+      opacity: 1;
+      filter: blur(0);
+      transform: translateY(0);
+    }
+
+    .secret-val {
+      color: var(--text-primary);
+      opacity: 0;
+      filter: blur(4px);
+      transform: translateY(2px);
+      pointer-events: none;
+    }
+
+    .secret-reveal:hover .secret-mask {
+      opacity: 0;
+      filter: blur(4px);
+      transform: translateY(-2px);
+    }
+
+    .secret-reveal:hover .secret-val {
+      opacity: 1;
+      filter: blur(0);
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .net-loc-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-secondary);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      line-height: 16px;
+    }
+
+    .net-loc-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background-color: var(--positive);
+      flex-shrink: 0;
+    }
+
+    /* Quiet Monospace TOTP Keycap */
+    .totp-keycap {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 20px;
+      font-weight: 500;
+      font-variant-numeric: tabular-nums;
+      color: var(--text-primary);
+      background-color: var(--bg-raised);
+      border: 1px solid var(--border-strong);
+      padding: 4px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+      min-width: 96px;
+      gap: 8px;
+      transition: background-color 120ms var(--ease), border-color 120ms var(--ease);
+    }
+
+    .totp-keycap:hover {
+      background-color: var(--bg-raised-hover);
+      border-color: var(--accent);
+    }
+
+    .totp-rem {
+      font-size: 11px;
+      line-height: 16px;
+      color: var(--text-muted);
+      font-weight: 400;
+      font-variant-numeric: tabular-nums;
+      display: inline-block;
+      width: 24px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .auth-fallback {
+      font-size: 12px;
+      line-height: 16px;
+      color: var(--text-secondary);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Quiet Status Indicator (Dot + Label, No Pulse, No Pill) */
+    .status-cell {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      line-height: 16px;
+      font-weight: 500;
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .status-pending {
+      color: var(--text-secondary);
+    }
+    .status-pending .status-dot {
+      background-color: var(--text-muted);
+    }
+
+    .status-running {
+      color: #60a5fa;
+    }
+    .status-running .status-dot {
+      background-color: var(--accent);
+    }
+
+    .status-waiting_human {
+      color: var(--warning);
+    }
+    .status-waiting_human .status-dot {
+      background-color: var(--warning);
+    }
+
+    .status-completed {
+      color: var(--positive);
+    }
+    .status-completed .status-dot {
+      background-color: var(--positive);
+    }
+
+    .status-error {
+      color: var(--danger);
+    }
+    .status-error .status-dot {
+      background-color: var(--danger);
+    }
+
+    /* Step Keycaps inside Table */
+    .step-dots {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 6px;
+    }
+
+    .step-dot {
+      height: 20px;
+      padding: 0 6px;
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      line-height: 16px;
+      font-weight: 500;
+      font-variant-numeric: tabular-nums;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--bg-deep);
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+    }
+
+    .step-dot.done {
+      background-color: var(--positive-soft);
+      color: var(--positive);
+      border-color: rgba(76, 195, 138, 0.28);
+    }
+
+    .step-dot.active {
+      background-color: var(--accent-soft);
+      color: #60a5fa;
+      border-color: rgba(59, 130, 246, 0.4);
+    }
+
+    .step-dot.error {
+      background-color: var(--danger-soft);
+      color: #f87171;
+      border-color: rgba(229, 72, 77, 0.36);
+    }
+
+    .step-msg {
+      font-size: 12px;
+      line-height: 16px;
+      color: var(--text-muted);
+      max-width: 196px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .step-msg.is-error {
+      color: #f87171;
+    }
+
+    .step-msg.is-stopped {
+      color: var(--text-secondary);
+    }
+
+    .step-msg.is-done {
+      color: var(--text-secondary);
+    }
+
+    .expiry-val {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 16px;
+      font-variant-numeric: tabular-nums;
+      color: var(--text-secondary);
+      white-space: nowrap;
+    }
+
+    .expiry-val.verified {
+      color: var(--positive);
+      font-weight: 500;
+    }
+
+    .row-controls {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .row-select {
+      height: 32px;
+      padding: 0 8px;
+      font-size: 12px;
+      border-radius: 6px;
+      width: auto;
+    }
+
+    .empty-queue {
+      padding: 32px 24px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    /* Recessed Log Terminal */
+    .terminal {
+      background-color: var(--bg-deep);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 16px;
+      height: 260px;
+      overflow-y: auto;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 20px;
+      color: var(--text-secondary);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .log-line {
+      white-space: pre-wrap;
+      word-break: break-all;
+      padding: 1px 0;
+    }
+
+    .log-warn {
+      color: var(--warning);
+    }
+
+    .log-err {
+      color: var(--danger);
+    }
+
+    .log-ok {
+      color: var(--positive);
+    }
+
+    /* Modal for Screenshot */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background-color: rgba(10, 10, 11, 0.82);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+      padding: 24px;
+    }
+
+    .modal-box {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-strong);
+      border-radius: 12px;
+      max-width: 1080px;
+      max-height: 90vh;
+      overflow: auto;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .modal-header strong {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-primary);
+      font-family: var(--font-mono);
+    }
+
+    .modal-box img {
+      max-width: 100%;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+
+    @media (max-width: 1200px) {
+      .config-grid {
+        grid-template-columns: 1fr;
+      }
+      .ledger-strip {
+        grid-template-columns: 1fr;
+      }
+      .ledger-stage {
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 16px;
+      }
+      .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .billing-layout {
+        grid-template-columns: 1fr;
+      }
+      .form-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .form-group.col-1,
+      .form-group.col-2,
+      .form-group.col-3,
+      .form-group.col-6 {
+        grid-column: span 2;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <!-- Top Header -->
+    <header class="topbar">
+      <div class="brand-group">
+        <div class="brand-title-row">
+          <span class="brand-mark">G1</span>
+          <h1>Google AI Pro Provisioning Console</h1>
+          <span class="brand-meta">5 TB · 24M stack · $0.00</span>
+        </div>
+        <p class="brand-sub">Automated 5-stage trial provisioning and Google Play renewal lock via Playwright CDP and Ngbm RPC interception</p>
+      </div>
+      <div class="topbar-controls">
+        <select id="batchStartStep" title="Starting step for batch execution">
+          <option value="1">Step 01 · Full 24M pipeline + cancel</option>
+          <option value="2">Step 02 · Start at Layer 1 (12M base)</option>
+          <option value="3">Step 03 · Start at Layer 2 (+6M S25)</option>
+          <option value="4">Step 04 · Start at Layer 3 (+6M Pixel)</option>
+          <option value="5">Step 05 · Google Play cancel only</option>
+        </select>
+        <button class="btn-primary" id="btnBatchRun" onclick="runBatch()">
+          <svg class="icon" viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+          <span>Run pending queue</span>
+        </button>
+        <button class="btn-danger" onclick="stopAll()">
+          <svg class="icon" viewBox="0 0 24 24"><rect width="14" height="14" x="5" y="5" rx="2"/></svg>
+          <span>Stop</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- 5-Stage Cumulative Allocation Ledger -->
+    <section class="ledger-strip" aria-label="Pipeline stages">
+      <div class="ledger-stage">
+        <div class="ledger-stage-head">
+          <span class="keycap-step"><span class="keycap-dot"></span>01</span>
+          <span class="ledger-stage-delta">Auth</span>
+        </div>
+        <div class="ledger-stage-title">Session & 2FA</div>
+        <div class="ledger-stage-desc">Credentials, recovery email, and TOTP verification</div>
+      </div>
+      <div class="ledger-stage">
+        <div class="ledger-stage-head">
+          <span class="keycap-step"><span class="keycap-dot"></span>02</span>
+          <span class="ledger-stage-delta accent">0M → 12M</span>
+        </div>
+        <div class="ledger-stage-title">Layer 1 base trial</div>
+        <div class="ledger-stage-desc">5 TB AI Pro 12M offer + inline OR 97201 card bind</div>
+      </div>
+      <div class="ledger-stage">
+        <div class="ledger-stage-head">
+          <span class="keycap-step"><span class="keycap-dot"></span>03</span>
+          <span class="ledger-stage-delta accent">12M → 18M</span>
+        </div>
+        <div class="ledger-stage-title">Layer 2 extension</div>
+        <div class="ledger-stage-desc">S25 6M promotional token appended in mode 5</div>
+      </div>
+      <div class="ledger-stage">
+        <div class="ledger-stage-head">
+          <span class="keycap-step"><span class="keycap-dot"></span>04</span>
+          <span class="ledger-stage-delta accent">18M → 24M</span>
+        </div>
+        <div class="ledger-stage-title">Layer 3 cap</div>
+        <div class="ledger-stage-desc">Pixel 6M promotional token capped at 24 months</div>
+      </div>
+      <div class="ledger-stage">
+        <div class="ledger-stage-head">
+          <span class="keycap-step"><span class="keycap-dot"></span>05</span>
+          <span class="ledger-stage-delta positive">$0.00 locked</span>
+        </div>
+        <div class="ledger-stage-title">Renewal cancellation</div>
+        <div class="ledger-stage-desc">Google Play auto-renewal disabled with proof capture</div>
+      </div>
+    </section>
+
+    <!-- Top Config + Import Grid -->
+    <div class="config-grid">
+      <!-- Left: Billing & Network Configuration -->
+      <section class="card">
+        <div class="card-header">
+          <div class="card-header-left">
+            <h2 class="card-title">Billing & Network Configuration</h2>
+            <span class="card-subtitle">Used strictly for $0.00 trial authorization</span>
+          </div>
+          <button class="btn-secondary btn-sm" onclick="saveConfig()">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+            <span>Save configuration</span>
+          </button>
+        </div>
+
+        <div class="billing-layout">
+          <!-- Rendered Payment Card Object in Code (Moment 1) -->
+          <div>
+            <div class="payment-card-visual">
+              <div class="pcard-top">
+                <div class="pcard-chip"></div>
+                <span class="pcard-zero-tag">$0.00 AUTH ONLY</span>
+              </div>
+              <div class="pcard-number" id="previewCardNum">•••• •••• •••• ••••</div>
+              <div class="pcard-bottom">
+                <div class="pcard-meta-col">
+                  <span class="pcard-meta-label">Cardholder</span>
+                  <span class="pcard-meta-val" id="previewHolder">CARDHOLDER</span>
+                </div>
+                <div class="pcard-meta-col" style="text-align: right;">
+                  <span class="pcard-meta-label">Expires</span>
+                  <span class="pcard-meta-val" id="previewExp">MM/YY</span>
+                </div>
+              </div>
+            </div>
+            <div class="pcard-tax-footnote">
+              <div class="pcard-tax-row">
+                <span>Tax jurisdiction</span>
+                <span id="previewTaxLoc">OR 97201 · 0%</span>
+              </div>
+              <div class="pcard-tax-row">
+                <span>Checkout guard</span>
+                <span style="color: var(--positive);">Strict US$0.00</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Form Fields -->
+          <div class="form-grid">
+            <div class="form-group col-3">
+              <label for="cfgTargetRegion">Region & tax profile</label>
+              <select id="cfgTargetRegion" onchange="onRegionChange(this.value)">
+                <option value="US">United States (USD · Oregon 97201 tax-free)</option>
+              </select>
+            </div>
+            <div class="form-group col-3">
+              <label for="cfgTargetPlan">Target plan</label>
+              <select id="cfgTargetPlan">
+                <option value="pro_2year_zero">Google AI Pro 5 TB · 24-month stack ($0.00)</option>
+              </select>
+            </div>
+            <div class="form-group col-3">
+              <label for="cfgCardNumber">Card number</label>
+              <input type="text" class="mono-input" id="cfgCardNumber" placeholder="4000 0000 0000 0000" oninput="syncCardPreview()" />
+            </div>
+            <div class="form-group col-2">
+              <label for="cfgExpMonth">Expiration</label>
+              <div class="input-pair">
+                <input type="text" class="mono-input" id="cfgExpMonth" placeholder="MM" oninput="syncCardPreview()" />
+                <input type="text" class="mono-input" id="cfgExpYear" placeholder="YY" oninput="syncCardPreview()" />
+              </div>
+            </div>
+            <div class="form-group col-1">
+              <label for="cfgCvc">CVC</label>
+              <input type="text" class="mono-input" id="cfgCvc" placeholder="000" />
+            </div>
+            <div class="form-group col-2">
+              <label for="cfgHolder">Cardholder</label>
+              <input type="text" id="cfgHolder" placeholder="JOHN DOE" oninput="syncCardPreview()" />
+            </div>
+            <div class="form-group col-2">
+              <label for="cfgAddr">Street address</label>
+              <input type="text" id="cfgAddr" placeholder="700 SW 5th Ave" />
+            </div>
+            <div class="form-group col-2">
+              <label for="cfgZip">ZIP & state</label>
+              <div class="input-pair">
+                <input type="text" class="mono-input" id="cfgZip" placeholder="97201" oninput="syncCardPreview()" />
+                <input type="text" class="mono-input" id="cfgProvince" placeholder="OR" oninput="syncCardPreview()" />
+              </div>
+            </div>
+            <div class="form-group col-6">
+              <div class="proxy-header">
+                <label for="cfgProxyTemplate">Outbound proxy template</label>
+                <button type="button" class="btn-secondary btn-sm" onclick="testProxyNow()" id="btnTestProxy">
+                  <svg class="icon" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                  <span>Test connection</span>
+                </button>
+              </div>
+              <input
+                type="text"
+                class="mono-input"
+                id="cfgProxyTemplate"
+                placeholder="Direct local network by default, or http://user:pass@host:port"
+              />
+              <div id="proxyTestResult" class="proxy-status">
+                <span class="status-dot" style="background-color: var(--positive);"></span>
+                <span>Using direct US network connection (Oregon 97201 tax-free profile)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <label class="checkbox-row">
+          <input type="checkbox" id="cfgAutoCancel" checked />
+          <span><strong>Auto-cancel renewal in Step 05</strong> — disables recurring billing on Google Play immediately after stacking 24 months</span>
+        </label>
+      </section>
+
+      <!-- Right: Bulk Account Import -->
+      <section class="card">
+        <div class="card-header">
+          <div class="card-header-left">
+            <h2 class="card-title">Account Import</h2>
+            <span class="card-subtitle">One account per line</span>
+          </div>
+          <button class="btn-secondary btn-sm" onclick="importAccounts()">
+            <svg class="icon" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            <span>Import accounts</span>
+          </button>
+        </div>
+
+        <textarea
+          id="importText"
+          class="import-box"
+          placeholder="email@gmail.com----password----recovery@gmail.com&#10;email@gmail.com----password----recovery@gmail.com----JBSWY3DPEHPK3PXP&#10;email@gmail.com----password----JBSWY3DPEHPK3PXP"
+        ></textarea>
+
+        <div class="format-tokens">
+          <div class="format-token-list">
+            <span class="token-tag">email</span>
+            <span class="token-sep">----</span>
+            <span class="token-tag">password</span>
+            <span class="token-sep">----</span>
+            <span class="token-tag">recovery</span>
+            <span class="token-sep">----</span>
+            <span class="token-tag">totp_secret</span>
+          </div>
+          <span class="card-subtitle">Delimiters: ----, /, |, or space</span>
+        </div>
+      </section>
+    </div>
+
+    <!-- Accounts Table Card -->
+    <section class="card">
+      <div class="card-header">
+        <div class="card-header-left">
+          <h2 class="card-title">Account Queue</h2>
+          <span class="card-subtitle">Click any 2FA keycap to copy current 6-digit TOTP code</span>
+        </div>
+        <div id="summaryStats" class="queue-stats">Loading queue</div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Account</th>
+              <th>Credentials & network</th>
+              <th>2FA / Auth</th>
+              <th>Status</th>
+              <th>Pipeline</th>
+              <th>Expires</th>
+              <th>Proof</th>
+              <th style="text-align: right;">Controls</th>
+            </tr>
+          </thead>
+          <tbody id="accountsTbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Live Logs Terminal -->
+    <section class="card">
+      <div class="card-header">
+        <div class="card-header-left">
+          <h2 class="card-title">Execution Log</h2>
+          <span class="card-subtitle">Playwright CDP & Ngbm RPC interceptor stream · Select text or copy anytime</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span class="card-subtitle" style="margin-right: 4px;">Pauses for manual check if card reCAPTCHA appears</span>
+          <button class="btn-secondary btn-sm" id="btnCopyLogs" onclick="copyAllLogs()">Copy log</button>
+          <button class="btn-secondary-muted btn-sm" id="btnClearLogs" onclick="clearAllLogs()">Clear log</button>
+        </div>
+      </div>
+      <div class="terminal" id="logTerminal"></div>
+    </section>
+  </div>
+
+  <!-- Screenshot Modal -->
+  <div class="modal-backdrop" id="imgModal" onclick="closeModal()">
+    <div class="modal-box" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <strong id="modalTitle">Verification capture</strong>
+        <button class="btn-secondary btn-sm" onclick="closeModal()">Close</button>
+      </div>
+      <img id="modalImg" src="" alt="Verification screenshot" />
+    </div>
+  </div>
+
+  <script>
+    let configInitialized = false;
+    let selectedStartSteps = {};
+    let copiedAccountMap = {};
+    let openedBrowserMap = {};
+    let lastLogsCount = 0;
+    let lastLogsSig = '';
+    let latestRawLogs = [];
+    let clearedLogsSnapshot = [];
+
+    function syncCardPreview() {
+      const rawNum = (document.getElementById('cfgCardNumber').value || '').replace(/\D+/g, '');
+      const expM = (document.getElementById('cfgExpMonth').value || '').trim();
+      const expY = (document.getElementById('cfgExpYear').value || '').trim();
+      const holder = (document.getElementById('cfgHolder').value || '').trim();
+      const zip = (document.getElementById('cfgZip').value || '97201').trim();
+      const prov = (document.getElementById('cfgProvince').value || 'OR').trim();
+
+      let formattedNum = '•••• •••• •••• ••••';
+      if (rawNum.length > 0) {
+        const padded = rawNum.padEnd(16, '•').slice(0, 16);
+        const masked = padded.slice(0, 12).replace(/\d/g, '•') + padded.slice(12);
+        formattedNum = masked.replace(/(.{4})/g, '$1 ').trim();
+      }
+      document.getElementById('previewCardNum').textContent = formattedNum;
+      document.getElementById('previewHolder').textContent = (holder || 'CARDHOLDER').toUpperCase();
+      document.getElementById('previewExp').textContent =
+        (expM ? expM.padStart(2, '0') : 'MM') + '/' + (expY ? expY.slice(-2) : 'YY');
+      document.getElementById('previewTaxLoc').textContent = `${prov || 'OR'} ${zip || '97201'} · 0%`;
+    }
+
+    async function fetchState() {
+      try {
+        const res = await fetch('/api/state');
+        const data = await res.json();
+
+        if (!configInitialized) {
+          document.getElementById('cfgTargetRegion').value = data.target_region || 'US';
+          document.getElementById('cfgTargetPlan').value = data.target_plan || 'pro_2year_zero';
+          document.getElementById('cfgAutoCancel').checked = data.auto_cancel !== false;
+          document.getElementById('cfgProxyTemplate').value = data.proxy_template || '';
+          const c = data.card || {};
+          document.getElementById('cfgCardNumber').value = c.number || '';
+          document.getElementById('cfgExpMonth').value = c.exp_month || '';
+          document.getElementById('cfgExpYear').value = c.exp_year || '';
+          document.getElementById('cfgCvc').value = c.cvc || '';
+          document.getElementById('cfgHolder').value = c.holder || '';
+          document.getElementById('cfgAddr').value = c.address_line1 || '700 SW 5th Ave';
+          document.getElementById('cfgZip').value = c.postal_code || '97201';
+          document.getElementById('cfgProvince').value = c.province || 'OR';
+          syncCardPreview();
+          configInitialized = true;
+        }
+
+        renderAccounts(data.accounts || []);
+        renderLogs(data.logs || []);
+
+        const total = (data.accounts || []).length;
+        const done = (data.accounts || []).filter(a => a.status === 'completed').length;
+        const running = data.active_count || 0;
+        document.getElementById('summaryStats').innerHTML = `
+          <span class="stat-item">Total <span class="stat-val">${total}</span></span>
+          <span class="stat-item">Completed <span class="stat-val">${done}</span></span>
+          <span class="stat-item">Active <span class="stat-val">${running}</span></span>
+        `;
+      } catch (e) {
+        console.error('State poll error:', e);
+      }
+    }
+
+    function statusBadgeHtml(status, stepMsg) {
+      const isManualStop = status === 'error' && /stopped manually|stopped by user/i.test(stepMsg || '');
+      if (isManualStop) {
+        return `<span class="status-cell status-pending"><span class="status-dot"></span><span>Stopped</span></span>`;
+      }
+      const map = {
+        pending: ['status-pending', 'Pending'],
+        running: ['status-running', 'Running'],
+        waiting_human: ['status-waiting_human', 'Manual check'],
+        completed: ['status-completed', 'Completed'],
+        error: ['status-error', 'Error'],
+        stopped: ['status-pending', 'Stopped']
+      };
+      const [cls, label] = map[status] || ['status-pending', status];
+      return `<span class="status-cell ${cls}"><span class="status-dot"></span><span>${label}</span></span>`;
+    }
+
+    function stepDotsHtml(curStep, status, stepMsg) {
+      const isManualStop = status === 'error' && /stopped manually|stopped by user/i.test(stepMsg || '');
+      let html = '<div class="step-dots">';
+      for (let s = 1; s <= 5; s++) {
+        let cls = '';
+        if (status === 'completed' || s < curStep) cls = 'done';
+        else if (s === curStep && status === 'error' && !isManualStop) cls = 'error';
+        else if (s === curStep && (status === 'running' || status === 'waiting_human')) cls = 'active';
+        const label = String(s).padStart(2, '0');
+        html += `<div class="step-dot ${cls}" title="Step ${label}">${label}</div>`;
+      }
+      html += '</div>';
+      return html;
+    }
+
+    function parseIpAndLocation(ipInfo) {
+      if (!ipInfo) return null;
+      // Strip flag emojis / regional indicators / misc symbols
+      const cleaned = ipInfo
+        .replace(/[\u{1F1E6}-\u{1F1FF}\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{FE0F}]/gu, '')
+        .trim();
+      // Match IPv4 or IPv6 + optional parenthetical location e.g. "198.51.100.42 (US·New York City)"
+      const match = cleaned.match(/^([0-9a-fA-F.:]+)\s*(?:\(([^)]+)\))?/);
+      if (match) {
+        const ip = match[1].trim();
+        const loc = (match[2] || '').replace(/[·•|]+/g, ' · ').replace(/\s+/g, ' ').trim();
+        return { ip, loc: loc || 'Direct network' };
+      }
+      return { ip: cleaned, loc: '' };
+    }
+
+    function buildCredsHtml(acc) {
+      const pwdMask = '•'.repeat(Math.min(Math.max((acc.password || '').length, 8), 12));
+      const parsedNet = parseIpAndLocation(acc.ip_info);
+      let netRowHtml = '';
+      if (parsedNet) {
+        netRowHtml = `
+          <div class="acc-meta-row">
+            ${parsedNet.loc ? `<span class="net-loc-badge"><span class="net-loc-dot"></span><span>${escapeHtml(parsedNet.loc)}</span></span>` : ''}
+            <span class="secret-reveal" onclick="copyText('${escapeJs(parsedNet.ip)}')" title="Hover to reveal IP · Click to copy">
+              <span class="secret-mask">•••.•••.•••.•••</span>
+              <span class="secret-val">${escapeHtml(parsedNet.ip)}</span>
+            </span>
+          </div>
+        `;
+      } else if (acc.proxy) {
+        netRowHtml = `
+          <div class="acc-meta-row">
+            <span class="net-loc-badge"><span class="net-loc-dot"></span><span>Custom proxy configured</span></span>
+          </div>
+        `;
+      }
+
+      return `
+        <div class="acc-email">${escapeHtml(acc.email)}</div>
+        <div class="acc-meta">
+          <div class="acc-meta-row">
+            <span class="secret-reveal" onclick="copyText('${escapeJs(acc.password || '')}')" title="Hover to reveal password · Click to copy">
+              <span class="secret-mask">${pwdMask}</span>
+              <span class="secret-val">${escapeHtml(acc.password || '')}</span>
+            </span>
+            ${acc.recovery_email ? `<span>· ${escapeHtml(acc.recovery_email)}</span>` : ''}
+          </div>
+          ${netRowHtml}
+        </div>
+      `;
+    }
+
+    function formatStepMessage(rawMsg, status, curStep) {
+      if (!rawMsg) return { text: '', cls: 'step-msg' };
+      let clean = rawMsg
+        .replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{FE0F}]/gu, '')
+        .replace(/\s+/g, ' ')
+        .trim();
+
+      if (/stopped manually|stopped by user/i.test(clean)) {
+        return { text: 'Stopped by user', cls: 'step-msg is-stopped' };
+      }
+      if (/Newly imported account|Status reset/i.test(clean)) {
+        return { text: 'Ready in queue', cls: 'step-msg' };
+      }
+      if (status === 'completed' || /2-Year Zero-Cost Complete/i.test(clean)) {
+        return { text: '24M stack complete · Auto-renewal off', cls: 'step-msg is-done' };
+      }
+
+      // Strip redundant "Step X Error: Step X (...) failed:" boilerplate
+      clean = clean
+        .replace(/^Step\s*\d+\s*Error:\s*Step\s*\d+\s*\([^)]*\)\s*failed:\s*/i, '')
+        .replace(/^Step\s*\d+\s*Error:\s*/i, '')
+        .replace(/^Step\s*\d+\s*\([^)]*\)\s*failed:\s*/i, '')
+        .trim();
+
+      if (status === 'error') {
+        const stepLabel = curStep ? `Step 0${curStep}` : 'Failed';
+        const reason = clean || 'Checkout modal timed out or offer ineligible';
+        return { text: `${stepLabel} · ${reason}`, cls: 'step-msg is-error' };
+      }
+      return { text: clean, cls: 'step-msg' };
+    }
+
+    function formatExpiryHtml(expiryRaw) {
+      const val = expiryRaw || '—';
+      const isVerifiedYear = val.includes('2028') || val.includes('2027') || val.toLowerCase().includes('active');
+      const displayVal = val === 'Active (See screenshot)' ? '24M · Active' : val;
+      return `<span class="expiry-val ${isVerifiedYear ? 'verified' : ''}" title="${escapeHtml(val)}">${escapeHtml(displayVal)}</span>`;
+    }
+
+    function formatAccountSlotHtml(acc, idx) {
+      const m = String(acc.id || '').match(/^Account_(\d+)$/i);
+      const slotNum = String(m ? m[1] : (idx + 1)).padStart(2, '0');
+      const customLabel = !m && acc.id ? acc.id : '';
+      return `
+        <div class="acc-slot" title="${escapeHtml(acc.email || acc.id)}">
+          <span class="acc-slot-num"><span class="acc-slot-hash">#</span>${escapeHtml(slotNum)}</span>
+          ${customLabel ? `<span class="acc-slot-name">${escapeHtml(customLabel)}</span>` : ''}
+        </div>
+      `;
+    }
+
+    function buildTotpHtml(acc) {
+      if (acc.totp_secret && acc.totp_now && acc.totp_now !== '------') {
+        const remPadded = String(acc.totp_rem || 0).padStart(2, '0') + 's';
+        return `
+          <div class="totp-keycap" data-totp-code="${escapeHtml(acc.totp_now)}" onclick="copyText(this.getAttribute('data-totp-code'))" title="Click to copy 6-digit TOTP code">
+            <span class="totp-code-text">${escapeHtml(acc.totp_now)}</span>
+            <span class="totp-rem">${remPadded}</span>
+          </div>
+        `;
+      }
+      return `<span class="auth-fallback">Recovery email</span>`;
+    }
+
+    function renderAccounts(accounts) {
+      const tbody = document.getElementById('accountsTbody');
+      if (!accounts.length) {
+        if (!tbody.querySelector('.empty-queue')) {
+          tbody.innerHTML = `<tr><td colspan="8" class="empty-queue">No accounts in queue. Paste credentials into Account Import above.</td></tr>`;
+        }
+        return;
+      }
+
+      const existingRows = Array.from(tbody.querySelectorAll('tr[data-acc-id]'));
+      const existingIds = existingRows.map(r => r.getAttribute('data-acc-id'));
+      const incomingIds = accounts.map(a => a.id);
+      const sameStructure =
+        existingIds.length === incomingIds.length &&
+        existingIds.every((id, idx) => id === incomingIds[idx]);
+
+      if (!sameStructure) {
+        tbody.innerHTML = accounts.map((acc, idx) => {
+          const savedStart = selectedStartSteps[acc.id] || 1;
+          return `
+            <tr data-acc-id="${escapeHtml(acc.id)}">
+              <td>${formatAccountSlotHtml(acc, idx)}</td>
+              <td data-cell="creds"></td>
+              <td data-cell="totp"></td>
+              <td data-cell="status"></td>
+              <td data-cell="pipeline"></td>
+              <td data-cell="expiry"></td>
+              <td data-cell="proof"></td>
+              <td>
+                <div class="row-controls">
+                  <select
+                    class="row-select"
+                    onchange="selectedStartSteps['${escapeJs(acc.id)}'] = parseInt(this.value)"
+                  >
+                    <option value="1" ${savedStart === 1 ? 'selected' : ''}>Step 01 · Full</option>
+                    <option value="2" ${savedStart === 2 ? 'selected' : ''}>Step 02 · 12M</option>
+                    <option value="3" ${savedStart === 3 ? 'selected' : ''}>Step 03 · 18M</option>
+                    <option value="4" ${savedStart === 4 ? 'selected' : ''}>Step 04 · 24M</option>
+                    <option value="5" ${savedStart === 5 ? 'selected' : ''}>Step 05 · Cancel</option>
+                  </select>
+                  <button data-cell="run-btn" class="btn-sm btn-primary"></button>
+                  <button
+                    data-cell="login-btn"
+                    class="btn-sm btn-secondary"
+                    onclick="manualLogin('${escapeJs(acc.id)}')"
+                    title="Start in manual-login mode: the browser opens the sign-in page and pauses so you can log in by hand, then press Resume"
+                  >Login</button>
+                  <button
+                    data-cell="browser-btn"
+                    class="btn-sm btn-secondary"
+                    onclick="openBrowser('${escapeJs(acc.id)}')"
+                    title="Open isolated Chrome window"
+                  >Browser</button>
+                  <button
+                    data-cell="copy-btn"
+                    class="btn-sm btn-secondary"
+                    title="Copy credentials"
+                  >Copy</button>
+                  <button class="btn-icon btn-secondary-muted" onclick="resetAccount('${escapeJs(acc.id)}')" title="Reset status to Pending">
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                  </button>
+                  <button class="btn-icon btn-danger" onclick="deleteAccount('${escapeJs(acc.id)}')" title="Remove account from queue">
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          `;
+        }).join('');
+      }
+
+      // Patch each row in-place so <select> dropdowns, hover states, and scroll never reset
+      accounts.forEach(acc => {
+        const row = tbody.querySelector(`tr[data-acc-id="${CSS.escape(acc.id)}"]`);
+        if (!row) return;
+
+        // 1. Credentials & network cell
+        const credsCell = row.querySelector('[data-cell="creds"]');
+        const credsSig = `${acc.email}||${acc.password}||${acc.recovery_email || ''}||${acc.ip_info || ''}||${acc.proxy || ''}`;
+        if (credsCell.getAttribute('data-sig') !== credsSig) {
+          credsCell.innerHTML = buildCredsHtml(acc);
+          credsCell.setAttribute('data-sig', credsSig);
+        }
+
+        // 2. TOTP cell (update text in-place if keycap exists)
+        const totpCell = row.querySelector('[data-cell="totp"]');
+        const hasTotp = Boolean(acc.totp_secret && acc.totp_now && acc.totp_now !== '------');
+        const totpKeycap = totpCell.querySelector('.totp-keycap');
+        const remPadded = String(acc.totp_rem || 0).padStart(2, '0') + 's';
+        if (hasTotp && totpKeycap) {
+          totpKeycap.setAttribute('data-totp-code', acc.totp_now);
+          const codeSpan = totpKeycap.querySelector('.totp-code-text');
+          const remSpan = totpKeycap.querySelector('.totp-rem');
+          if (codeSpan && codeSpan.textContent !== acc.totp_now) codeSpan.textContent = acc.totp_now;
+          if (remSpan && remSpan.textContent !== remPadded) remSpan.textContent = remPadded;
+        } else {
+          const totpSig = `${hasTotp}||${acc.totp_now || ''}||${remPadded}`;
+          if (totpCell.getAttribute('data-sig') !== totpSig) {
+            totpCell.innerHTML = buildTotpHtml(acc);
+            totpCell.setAttribute('data-sig', totpSig);
+          }
+        }
+
+        // 3. Status cell
+        const statusCell = row.querySelector('[data-cell="status"]');
+        const statusSig = `${acc.status}||${acc.step_message || ''}`;
+        if (statusCell.getAttribute('data-sig') !== statusSig) {
+          statusCell.innerHTML = statusBadgeHtml(acc.status, acc.step_message);
+          statusCell.setAttribute('data-sig', statusSig);
+        }
+
+        // 4. Pipeline cell
+        const pipeCell = row.querySelector('[data-cell="pipeline"]');
+        const pipeSig = `${acc.current_step || 0}||${acc.status}||${acc.step_message || ''}`;
+        if (pipeCell.getAttribute('data-sig') !== pipeSig) {
+          const fmtMsg = formatStepMessage(acc.step_message || '', acc.status, acc.current_step || 0);
+          pipeCell.innerHTML = `
+            ${stepDotsHtml(acc.current_step || 0, acc.status, acc.step_message)}
+            <div class="${fmtMsg.cls}" title="${escapeHtml(fmtMsg.text)}">${escapeHtml(fmtMsg.text)}</div>
+          `;
+          pipeCell.setAttribute('data-sig', pipeSig);
+        }
+
+        // 5. Expiry cell
+        const expiryCell = row.querySelector('[data-cell="expiry"]');
+        const expirySig = acc.expiry_date || '';
+        if (expiryCell.getAttribute('data-sig') !== expirySig) {
+          expiryCell.innerHTML = formatExpiryHtml(acc.expiry_date);
+          expiryCell.setAttribute('data-sig', expirySig);
+        }
+
+        // 6. Proof cell
+        const proofCell = row.querySelector('[data-cell="proof"]');
+        const proofSig = acc.last_screenshot || '';
+        if (proofCell.getAttribute('data-sig') !== proofSig) {
+          proofCell.innerHTML = acc.last_screenshot
+            ? `<button class="btn-secondary btn-sm" onclick="showScreenshot('${escapeJs(acc.id)}', '${escapeJs(acc.last_screenshot)}')">View</button>`
+            : `<span class="acc-id">—</span>`;
+          proofCell.setAttribute('data-sig', proofSig);
+        }
+
+        // 7. Action buttons (without touching <select>!)
+        const runBtn = row.querySelector('[data-cell="run-btn"]');
+        const runSig = String(Boolean(acc.is_running));
+        if (runBtn.getAttribute('data-sig') !== runSig) {
+          runBtn.className = `btn-sm ${acc.is_running ? 'btn-danger' : 'btn-primary'}`;
+          runBtn.textContent = acc.is_running ? 'Stop' : 'Run';
+          runBtn.setAttribute('onclick', acc.is_running ? `stopSingle('${escapeJs(acc.id)}')` : `runSingle('${escapeJs(acc.id)}')`);
+          runBtn.setAttribute('data-sig', runSig);
+        }
+
+        const loginBtn = row.querySelector('[data-cell="login-btn"]');
+        if (loginBtn) {
+          const paused = acc.status === 'waiting_human';
+          const loginText = paused ? 'Resume' : 'Login';
+          const loginCls = paused ? 'btn-sm btn-primary' : 'btn-sm btn-secondary';
+          if (loginBtn.textContent !== loginText) loginBtn.textContent = loginText;
+          if (loginBtn.className !== loginCls) loginBtn.className = loginCls;
+          // Disable while a normal (non-paused) run is in progress
+          const disable = Boolean(acc.is_running) && !paused;
+          if (loginBtn.disabled !== disable) loginBtn.disabled = disable;
+        }
+
+        const browserBtn = row.querySelector('[data-cell="browser-btn"]');
+        const browserText = openedBrowserMap[acc.id] ? 'Opened' : 'Browser';
+        if (browserBtn.textContent !== browserText) {
+          browserBtn.textContent = browserText;
+        }
+
+        const copyBtn = row.querySelector('[data-cell="copy-btn"]');
+        const copyTextLabel = copiedAccountMap[acc.id] ? 'Copied' : 'Copy';
+        if (copyBtn.textContent !== copyTextLabel) {
+          copyBtn.textContent = copyTextLabel;
+        }
+        const copyCall = `copyAccountFull('${escapeJs(acc.id)}', '${escapeJs(acc.email)}', '${escapeJs(acc.password)}', '${escapeJs(acc.totp_secret || acc.recovery_email || '')}')`;
+        if (copyBtn.getAttribute('onclick') !== copyCall) {
+          copyBtn.setAttribute('onclick', copyCall);
+        }
+      });
+    }
+
+    function formatLogLineHtml(line) {
+      let cls = 'log-line';
+      if (line.includes('\u26a0') || line.includes('CAPTCHA') || line.includes('recaptcha')) cls += ' log-warn';
+      else if (line.includes('\u274c') || line.includes('Error') || line.includes('Exception') || line.includes('Failed')) cls += ' log-err';
+      else if (line.includes('\u2705') || line.includes('\ud83c\udf89')) cls += ' log-ok';
+      const cleanLine = line
+        .replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{FE0F}]/gu, '')
+        .replace(/\[Account_(\d+)\]/gi, (_, n) => `[#${String(n).padStart(2, '0')}]`)
+        .replace(/\s{2,}/g, ' ');
+      return `<div class="${cls}">${escapeHtml(cleanLine)}</div>`;
+    }
+
+    function renderLogs(rawLogs) {
+      const incoming = rawLogs || [];
+      // Filter out any lines that were cleared by the user
+      let logs = incoming;
+      if (clearedLogsSnapshot.length > 0) {
+        let matchCount = 0;
+        while (
+          matchCount < clearedLogsSnapshot.length &&
+          matchCount < incoming.length &&
+          incoming[matchCount] === clearedLogsSnapshot[matchCount]
+        ) {
+          matchCount++;
+        }
+        logs = incoming.slice(matchCount);
+      }
+
+      latestRawLogs = logs;
+      const term = document.getElementById('logTerminal');
+      const newSig = `${logs.length}::${logs[0] || ''}::${logs[logs.length - 1] || ''}`;
+      if (newSig === lastLogsSig) {
+        return; // Nothing changed; preserve user selection & scroll
+      }
+
+      // If user is actively selecting text inside the terminal, do not clobber their selection
+      const sel = window.getSelection ? window.getSelection() : null;
+      const hasActiveSelection =
+        sel && !sel.isCollapsed && sel.anchorNode && term.contains(sel.anchorNode);
+
+      const isAtBottom = term.scrollHeight - term.clientHeight <= term.scrollTop + 40;
+
+      if (logs.length > lastLogsCount && lastLogsCount > 0 && logs.length < 300) {
+        // Append only new lines so existing DOM nodes and text selection remain intact
+        const addedLines = logs.slice(lastLogsCount);
+        term.insertAdjacentHTML('beforeend', addedLines.map(formatLogLineHtml).join(''));
+      } else if (!hasActiveSelection) {
+        term.innerHTML = logs.map(formatLogLineHtml).join('');
+      } else {
+        return; // Wait until user finishes selecting/copying
+      }
+
+      lastLogsCount = logs.length;
+      lastLogsSig = newSig;
+      if (isAtBottom && !hasActiveSelection) {
+        term.scrollTop = term.scrollHeight;
+      }
+    }
+
+    function copyAllLogs() {
+      const text = (latestRawLogs || [])
+        .map(l => l.replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{FE0F}]/gu, '').replace(/\s{2,}/g, ' '))
+        .join('\n');
+      navigator.clipboard.writeText(text);
+      const btn = document.getElementById('btnCopyLogs');
+      if (btn) {
+        btn.textContent = 'Copied';
+        setTimeout(() => { btn.textContent = 'Copy log'; }, 1800);
+      }
+    }
+
+    async function clearAllLogs() {
+      try {
+        const res = await fetch('/api/state');
+        const data = await res.json();
+        clearedLogsSnapshot = (data.logs || []).slice();
+      } catch (_) {}
+      try {
+        await fetch('/api/logs/clear', { method: 'POST' });
+      } catch (_) {}
+      latestRawLogs = [];
+      lastLogsCount = 0;
+      lastLogsSig = '0::::';
+      const term = document.getElementById('logTerminal');
+      if (term) term.innerHTML = '';
+    }
+
+    function escapeHtml(str) {
+      return String(str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    function escapeJs(str) {
+      return String(str || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+    }
+
+    function onRegionChange(region) {
+      document.getElementById('cfgAddr').value = '700 SW 5th Ave';
+      document.getElementById('cfgZip').value = '97201';
+      document.getElementById('cfgProvince').value = 'OR';
+      syncCardPreview();
+    }
+
+    async function testProxyNow() {
+      const btn = document.getElementById('btnTestProxy');
+      const resBox = document.getElementById('proxyTestResult');
+      btn.disabled = true;
+      btn.innerHTML = '<span>Testing...</span>';
+      resBox.innerHTML = '<span class="status-dot" style="background-color: var(--accent);"></span><span>Probing egress IP...</span>';
+      try {
+        const region = document.getElementById('cfgTargetRegion').value;
+        const tpl = document.getElementById('cfgProxyTemplate').value.trim();
+        const res = await fetch('/api/proxy/test', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ target_region: region, proxy_template: tpl })
+        });
+        const data = await res.json();
+        if (data.ok) {
+          resBox.innerHTML = `<span class="status-dot" style="background-color: var(--positive);"></span><span style="color: var(--positive);">${escapeHtml(data.message)}</span>`;
+        } else {
+          resBox.innerHTML = `<span class="status-dot" style="background-color: var(--danger);"></span><span style="color: var(--danger);">${escapeHtml(data.message)}</span>`;
+        }
+      } catch (e) {
+        resBox.innerHTML = `<span class="status-dot" style="background-color: var(--danger);"></span><span style="color: var(--danger);">Request failed: ${escapeHtml(String(e))}</span>`;
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<svg class="icon" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span>Test connection</span>';
+        fetchState();
+      }
+    }
+
+    async function saveConfig() {
+      const region = document.getElementById('cfgTargetRegion').value || 'US';
+      const payload = {
+        target_region: region,
+        target_plan: document.getElementById('cfgTargetPlan').value || 'pro_2year_zero',
+        auto_cancel: document.getElementById('cfgAutoCancel').checked,
+        proxy_template: document.getElementById('cfgProxyTemplate').value.trim(),
+        card: {
+          number: document.getElementById('cfgCardNumber').value.trim(),
+          exp_month: document.getElementById('cfgExpMonth').value.trim(),
+          exp_year: document.getElementById('cfgExpYear').value.trim(),
+          cvc: document.getElementById('cfgCvc').value.trim(),
+          holder: document.getElementById('cfgHolder').value.trim(),
+          address_line1: document.getElementById('cfgAddr').value.trim() || '700 SW 5th Ave',
+          postal_code: document.getElementById('cfgZip').value.trim() || '97201',
+          locality: 'Portland',
+          province: document.getElementById('cfgProvince').value.trim() || 'OR'
+        }
+      };
+      await fetch('/api/config', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      syncCardPreview();
+      fetchState();
+    }
+
+    async function importAccounts() {
+      const raw = document.getElementById('importText').value.trim();
+      if (!raw) return alert('Paste account credentials into the import field first');
+      const res = await fetch('/api/accounts/import', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ raw_text: raw })
+      });
+      const data = await res.json();
+      if (data.ok) {
+        document.getElementById('importText').value = '';
+        fetchState();
+      }
+    }
+
+    function validateCardBeforeRun(startStep) {
+      if (startStep > 4) return true;
+      const num = document.getElementById('cfgCardNumber').value.replace(/\s+/g, '');
+      const expM = document.getElementById('cfgExpMonth').value.trim();
+      const expY = document.getElementById('cfgExpYear').value.trim();
+      const cvc = document.getElementById('cfgCvc').value.trim();
+      if (num.length < 12 || !expM || !expY || !cvc) {
+        alert('Complete payment card details (Card number, Expiration MM/YY, CVC) under Billing Configuration before running');
+        document.getElementById('cfgCardNumber').focus();
+        return false;
+      }
+      return true;
+    }
+
+    async function runSingle(accountId) {
+      const startStep = selectedStartSteps[accountId] || 1;
+      if (!validateCardBeforeRun(startStep)) return;
+      await saveConfig();
+      const res = await fetch('/api/run/single', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ account_id: accountId, start_step: startStep })
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        alert(err.detail || 'Failed to start');
+      }
+      fetchState();
+    }
+
+    async function runBatch() {
+      const startStep = parseInt(document.getElementById('batchStartStep').value || '1');
+      if (!validateCardBeforeRun(startStep)) return;
+      await saveConfig();
+      const res = await fetch('/api/run/batch', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ start_step: startStep })
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        alert(err.detail || 'Failed to start batch');
+      }
+      fetchState();
+    }
+
+    async function stopSingle(accountId) {
+      await fetch('/api/stop', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ account_id: accountId })
+      });
+      fetchState();
+    }
+
+    async function stopAll() {
+      await fetch('/api/stop', { method: 'POST' });
+      fetchState();
+    }
+
+    async function manualLogin(accountId) {
+      const btn = document.querySelector(`tr[data-acc-id="${CSS.escape(accountId)}"] [data-cell="login-btn"]`);
+      const isResume = btn && /Resume/i.test(btn.textContent);
+
+      // Phase 2: task is paused waiting for manual login -> resume the pipeline
+      if (isResume) {
+        const res = await fetch('/api/resume', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ account_id: accountId })
+        });
+        if (!res.ok) {
+          const err = await res.json();
+          alert(err.detail || 'Failed to resume');
+        }
+        fetchState();
+        return;
+      }
+
+      // Phase 1: start the run in manual-login mode. The automation browser opens
+      // the Google sign-in page and pauses so you can sign in by hand in that same
+      // window, then press "Resume".
+      if (!validateCardBeforeRun(1)) return;
+      await saveConfig();
+      const res = await fetch('/api/run/single', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ account_id: accountId, start_step: 1, manual_login: true })
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        alert(err.detail || 'Failed to start');
+      }
+      fetchState();
+    }
+
+    async function openBrowser(accountId) {
+      openedBrowserMap[accountId] = true;
+      fetchState();
+      await fetch('/api/open_browser', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ account_id: accountId })
+      });
+      setTimeout(() => {
+        delete openedBrowserMap[accountId];
+        fetchState();
+      }, 2500);
+    }
+
+    async function resetAccount(accountId) {
+      await fetch('/api/accounts/reset', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ account_id: accountId })
+      });
+      fetchState();
+    }
+
+    async function deleteAccount(accountId) {
+      if (!confirm(`Remove account ${accountId} from queue?`)) return;
+      await fetch('/api/accounts/delete', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ account_id: accountId })
+      });
+      fetchState();
+    }
+
+    function showScreenshot(accId, filename) {
+      document.getElementById('modalTitle').textContent = `${accId} · ${filename}`;
+      document.getElementById('modalImg').src = `/screenshots/${filename}?t=${Date.now()}`;
+      document.getElementById('imgModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('imgModal').style.display = 'none';
+    }
+
+    function copyText(txt) {
+      navigator.clipboard.writeText(txt);
+    }
+
+    function copyAccountFull(accId, email, password, totpSecret) {
+      const fullStr = `${email}----${password}----${totpSecret}`;
+      navigator.clipboard.writeText(fullStr);
+      copiedAccountMap[accId] = true;
+      fetchState();
+      setTimeout(() => {
+        delete copiedAccountMap[accId];
+        fetchState();
+      }, 2000);
+    }
+
+    fetchState();
+    setInterval(fetchState, 1500);
+  </script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+# Local runtime configuration & credentials (auto-generated on first run)
+config.json
+
+# Browser profiles & verification captures
+profiles/
+chrome_profiles/
+screenshots/
+
+# Python cache & virtual environments
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+
+# Logs & OS artifacts
+*.log
+.DS_Store
+Thumbs.db
+
